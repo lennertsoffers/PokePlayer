@@ -1,0 +1,325 @@
+﻿<Page x:Class="PokePlayer.Pages.View_Party"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PokePlayer.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="750" d:DesignWidth="1200"
+	  FontSize="20"
+      Title="View_Party">
+
+	
+	<Grid Background="White">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+
+		<Grid Grid.Column="0" Background="#386641">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="36"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="Auto"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="30"></RowDefinition>
+			</Grid.RowDefinitions>
+
+			<ItemsControl x:Name="t"
+						  Grid.Row="2"
+						  Grid.Column="1"
+			              Grid.ColumnSpan="4">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						
+						
+
+						<StackPanel Orientation="Vertical" Margin="0, 0, 0, 20"
+						            >
+							
+							<Grid>
+
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="80px"></ColumnDefinition>
+									<ColumnDefinition Width="*"></ColumnDefinition>
+									<ColumnDefinition Width="40"></ColumnDefinition>
+								</Grid.ColumnDefinitions>
+
+								
+								<Border Grid.ColumnSpan="2" Background="#f2e8cf" CornerRadius="15, 0, 0, 15"/>
+								<Border Background="#6a994e" CornerRadius="50" Margin="10"/>
+								<Button Grid.Column="3" Background="#a7c957" Margin="-1" Click="pokemon_Click" Tag="{Binding}">
+									<Button.Resources>
+										<Style TargetType="{x:Type Border}">
+											<Setter Property="CornerRadius" Value="0, 15, 15, 0"/>
+											<Setter Property="BorderBrush" Value="#a7c957"/>
+											<Setter Property="BorderThickness" Value="10"/>
+										</Style>
+									</Button.Resources>
+								</Button>
+								<Image Source="{Binding Sprite}" />
+								<Grid Grid.Column="1" Margin="10, 0, 20, 0">
+
+									<Grid.RowDefinitions>
+										<RowDefinition Height="35"></RowDefinition>
+										<RowDefinition Height="8"></RowDefinition>
+										<RowDefinition Height="35"></RowDefinition>
+									</Grid.RowDefinitions>
+
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*"></ColumnDefinition>
+										<ColumnDefinition Width="*"></ColumnDefinition>
+									</Grid.ColumnDefinitions>
+
+									<StackPanel Grid.Row="1"
+									            Grid.Column="0"
+									            Grid.ColumnSpan="2">
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="{Binding HpPercentage}"></ColumnDefinition>
+												<ColumnDefinition Width="{Binding LostHpPercentage}"></ColumnDefinition>
+											</Grid.ColumnDefinitions>
+
+											<Border CornerRadius="5" Grid.Column="0" Grid.ColumnSpan="2" Margin ="2, 0, 0, 0" Height="8" Background="#6a994e"></Border>
+											<Border CornerRadius="5" Grid.Column="0" Height="8" Background="#a7c957"></Border>
+										</Grid>
+									</StackPanel>
+
+									<TextBlock Grid.Column="0"
+									           Grid.ColumnSpan="2"
+									           VerticalAlignment="Center"
+									           Text="{Binding NickName}"/>
+
+									<StackPanel Orientation="Horizontal"
+									            Grid.Row="2"
+									            Grid.Column="0"
+									            VerticalAlignment="Center">
+										<TextBlock Text="{Binding Hp}"/>
+										<TextBlock Text="/"/>
+										<TextBlock Text="{Binding MaxHp}"/>
+									</StackPanel>
+									
+
+									<TextBlock TextAlignment="Right"
+											   VerticalAlignment="Center"
+									           Grid.Row="2"
+									           Grid.Column="1"
+									           Text="{Binding Level, StringFormat=Lv. {0}}"/>
+								</Grid>
+							</Grid>
+
+						</StackPanel>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+
+			</ItemsControl>
+		</Grid>
+		<Grid Grid.Column="1" Background="#f2e8cf">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"></ColumnDefinition>
+					<ColumnDefinition Width="*"></ColumnDefinition>
+					<ColumnDefinition Width="*"></ColumnDefinition>
+					<ColumnDefinition Width="*"></ColumnDefinition>
+					<ColumnDefinition Width="*"></ColumnDefinition>
+					<ColumnDefinition Width="*"></ColumnDefinition>
+				</Grid.ColumnDefinitions>
+
+				<Grid.RowDefinitions>
+					<RowDefinition Height="30"></RowDefinition>
+					<RowDefinition Height="Auto"></RowDefinition>
+					<RowDefinition Height="100"></RowDefinition>
+					<RowDefinition Height="*"></RowDefinition>
+					<RowDefinition Height="30"></RowDefinition>
+				</Grid.RowDefinitions>
+
+				<ContentControl x:Name="SpecificPokemon"
+				                Grid.Column="1"
+				                Grid.ColumnSpan="4"
+				                Grid.Row="1"
+				                Grid.RowSpan="1">
+					<ContentControl.ContentTemplate>
+						<DataTemplate>
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*"></ColumnDefinition>
+									<ColumnDefinition Width="*"></ColumnDefinition>
+								</Grid.ColumnDefinitions>
+								
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto"></RowDefinition>
+									<RowDefinition Height="*"></RowDefinition>
+								</Grid.RowDefinitions>
+
+									<Border Grid.Column="0"
+											Grid.Row="0"
+											Height="150"
+											Width="150"
+											Background="#6a994e"
+											CornerRadius="100"/>
+									<Image Grid.Column="0"
+									       Grid.Row="0"
+									       Height="200"
+									       Source="{Binding Sprite}" />
+								<StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="20, 0, 0, 0">
+									<TextBlock Text="{Binding NickName}"
+									           FontWeight="Bold" />
+									<TextBlock  Margin="0, 20, 0, 0" Text="Xp till next level:"/>
+									<TextBlock   Text="{Binding ExperienceDifference}"/>
+								</StackPanel>
+							</Grid>
+						</DataTemplate>
+					</ContentControl.ContentTemplate>
+				</ContentControl>
+
+				<Grid Grid.Row="2"
+					  Grid.Column="1"
+				      Grid.ColumnSpan="4">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"></ColumnDefinition>
+						<ColumnDefinition Width="*"></ColumnDefinition>
+						<ColumnDefinition Width="*"></ColumnDefinition>
+						<ColumnDefinition Width="*"></ColumnDefinition>
+						<ColumnDefinition Width="*"></ColumnDefinition>
+						<ColumnDefinition Width="*"></ColumnDefinition>
+					</Grid.ColumnDefinitions>
+
+					<Grid.RowDefinitions>
+						<RowDefinition Height="20"></RowDefinition>
+						<RowDefinition Height="40"></RowDefinition>
+						<RowDefinition Height="30"></RowDefinition>
+						<RowDefinition Height="*"></RowDefinition>
+					</Grid.RowDefinitions>
+
+					<StackPanel Grid.Column="1"
+									        Grid.Row="1"
+									        Grid.ColumnSpan="2"
+									        Margin="0, 0, 15, 0"
+									        Height="40">
+
+						<Grid Height="40">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*"></RowDefinition>
+								<RowDefinition Height="Auto"></RowDefinition>
+								<RowDefinition Height="*"></RowDefinition>
+							</Grid.RowDefinitions>
+							<Border Grid.Row="0"
+							        Grid.RowSpan="3"
+							        Background="#6a994e"
+							        Height="40"
+							        CornerRadius="10"
+							        MouseLeftButtonUp="move_Click"
+							        x:Name="Move_button"/>
+							<TextBlock Grid.Row="1"
+							           HorizontalAlignment="Center"
+							           MouseLeftButtonUp="move_Click">
+								Moves
+							</TextBlock>
+						</Grid>
+					</StackPanel>
+
+					<StackPanel Grid.Column="3"
+					            Grid.Row="1"
+					            Grid.ColumnSpan="2"
+					            Margin="15, 0, 0, 0"
+					            Height="40">
+
+						<Grid Height="40">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*"></RowDefinition>
+								<RowDefinition Height="Auto"></RowDefinition>
+								<RowDefinition Height="*"></RowDefinition>
+							</Grid.RowDefinitions>
+							<Border Grid.Row="0"
+							        Grid.RowSpan="3"
+							        Background="#386641"
+							        Height="40"
+							        CornerRadius="10"
+							        MouseLeftButtonUp="stats_Click"
+							        x:Name="Stat_button"/>
+							<TextBlock Grid.Row="1"
+							           HorizontalAlignment="Center"
+							           MouseLeftButtonUp="stats_Click">
+								Stats
+							</TextBlock>
+						</Grid>
+					</StackPanel>
+				</Grid>
+
+				<StackPanel Grid.Row="3"
+							Grid.RowSpan="2"
+							Grid.Column="1"
+				            Grid.ColumnSpan="4">
+					<ItemsControl x:Name="Moves"
+					              Grid.Row="2"
+					              Grid.Column="1"
+					              Grid.ColumnSpan="4"
+					              >
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Grid Margin="0, 0, 0, 15">
+									<Grid.RowDefinitions>
+										<RowDefinition Height="*"></RowDefinition>
+										<RowDefinition Height="Auto"></RowDefinition>
+										<RowDefinition Height="*"></RowDefinition>
+									</Grid.RowDefinitions>
+									<Border Grid.Row="0"
+									        Grid.RowSpan="3"
+									        Background="#386641"
+									        Height="64"
+									        CornerRadius="15 "/>
+									<TextBlock Grid.Row="1"
+											   Margin="20, 0, 0, 0"
+									           HorizontalAlignment="Left"
+									           Text="{Binding MoveName}" />
+									<TextBlock Grid.Row="1"
+									           HorizontalAlignment="Center"
+									           Text="{Binding Power}" />
+									<TextBlock Grid.Row="1"
+									           Margin="0, 0, 20, 0"
+									           HorizontalAlignment="Right"
+									           Text="{Binding Pp}" />
+								</Grid>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</StackPanel>
+
+				<StackPanel Grid.Row="3"
+				            Grid.RowSpan="2"
+				            Grid.Column="2"
+				            Grid.ColumnSpan="4">
+
+					<ItemsControl x:Name="Stats"
+					              Visibility="Collapsed">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<StackPanel>
+									<Grid Margin="0, 20, 0, 0">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="*"></ColumnDefinition>
+											<ColumnDefinition Width="*"></ColumnDefinition>
+										</Grid.ColumnDefinitions>
+										<TextBlock Grid.Column="0"
+										           Text="{Binding StatName}"/>
+										<TextBlock Grid.Column="1"
+										           Text="{Binding StatValue}"/>
+									</Grid>
+								</StackPanel>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</StackPanel>
+			</Grid>
+		</Grid>
+	</Grid>
+</Page>
