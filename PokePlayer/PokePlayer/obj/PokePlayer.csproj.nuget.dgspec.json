@@ -51,6 +51,10 @@
             "Caliburn.Micro": {
               "target": "Package",
               "version": "[4.0.173, )"
+            },
+            "FontAwesome5": {
+              "target": "Package",
+              "version": "[2.1.6, )"
             }
           },
           "imports": [

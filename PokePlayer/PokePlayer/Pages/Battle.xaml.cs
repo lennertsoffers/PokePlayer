@@ -40,8 +40,8 @@ namespace PokePlayer.Pages {
 			PokePlayerApplication.MainApplication.navBar.Visibility = Visibility.Hidden;
 			this.FirstPokemon = Trainer.CarryPokemonList[0];
 			
-			// this.WildPokemon = new Pokemon(random.Next(1, 700), random.Next(FirstPokemon.Level - 5, FirstPokemon.Level + 6));
-			this.WildPokemon = new Pokemon(1, 1);
+			this.WildPokemon = new Pokemon(random.Next(1, 700), random.Next(FirstPokemon.Level - 5, FirstPokemon.Level + 6));
+			// this.WildPokemon = new Pokemon(1, 1);
 
 			wildPokemon.Content = new PokemonConverter(this.WildPokemon);
 			trainerPokemon.Content = new PokemonConverter(this.FirstPokemon);
@@ -80,9 +80,14 @@ namespace PokePlayer.Pages {
 		private void ActionSwitch(object sender=null, RoutedEventArgs e=null) {
 			List<PokemonConverter> trainerPokemonData = new List<PokemonConverter>();
 			foreach (var key in Trainer.CarryPokemonList.Keys) {
-				trainerPokemonData.Add(new PokemonConverter(Trainer.CarryPokemonList[key], key));
+				PokemonConverter pokemonConverter = new PokemonConverter(Trainer.CarryPokemonList[key], key);
+				if (key == 0) {
+					pokemonConverter.IsEnabled = "false";
+				}
+				trainerPokemonData.Add(pokemonConverter);
 			}
 
+			BattleMenu.Visibility = Visibility.Hidden;
 			switchPokemons.ItemsSource = trainerPokemonData;
 			switchPokemon.Visibility = Visibility.Visible;
 			if (sender == null && e == null) {
@@ -109,6 +114,7 @@ namespace PokePlayer.Pages {
 
 			await SetOutputAsync("Come back " + this.FirstPokemon.NickName + "!");
 			this.FirstPokemon = Trainer.CarryPokemonList[switchPokemonId];
+			Trainer.SwitchPokemon(0, switchPokemonId);
 			await SetOutputAsync(Trainer.Name + " switched to " + this.FirstPokemon.NickName);
 			trainerPokemon.Content = new PokemonConverter(this.FirstPokemon);
 			if (!this.ObligatedSwitch) {

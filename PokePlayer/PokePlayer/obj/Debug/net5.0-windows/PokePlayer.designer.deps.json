@@ -50,6 +50,18 @@
           }
         }
       },
+      "FontAwesome5/2.1.6": {
+        "runtime": {
+          "lib/net5.0-windows7.0/FontAwesome5.Net.dll": {
+            "assemblyVersion": "2.1.6.0",
+            "fileVersion": "2.1.6.0"
+          },
+          "lib/net5.0-windows7.0/FontAwesome5.dll": {
+            "assemblyVersion": "2.1.6.0",
+            "fileVersion": "2.1.6.0"
+          }
+        }
+      },
       "Microsoft.Data.Sqlite/6.0.0": {
         "dependencies": {
           "Microsoft.Data.Sqlite.Core": "6.0.0",
@@ -1198,6 +1210,13 @@
       "sha512": "sha512-RDFF4rBLLmbpi6pwkY7q/M6UXHRJEOerplDGE5jwEkP/JGJnBauAClYavNKJPW1yOTWRPIyfj4is3EaJxQXILQ==",
       "path": "dapper/2.0.123",
       "hashPath": "dapper.2.0.123.nupkg.sha512"
+    },
+    "FontAwesome5/2.1.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-K/fuziBuB4B7D3ChlaBEaTJSuX0bk0PtyOQ3/TrsoL/fuAJnXoZrAwbNw+XYuhqLgvEq5SrVwTWPsbiY0gVkBw==",
+      "path": "fontawesome5/2.1.6",
+      "hashPath": "fontawesome5.2.1.6.nupkg.sha512"
     },
     "Microsoft.Data.Sqlite/6.0.0": {
       "type": "package",

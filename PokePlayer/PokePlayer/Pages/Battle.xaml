@@ -163,7 +163,6 @@
 			</Grid>
 		</Grid>
 
-
 	    <Grid Grid.Row="0" ZIndex="1" x:Name="switchPokemon" Visibility="Hidden">
 			<Grid Background="Gray" Opacity="0.6" ZIndex="1"/>
 

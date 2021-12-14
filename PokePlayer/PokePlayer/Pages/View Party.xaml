@@ -18,12 +18,12 @@
 
 		<Grid Grid.Column="0" Background="#386641">
 			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.2*"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
-				<ColumnDefinition Width="*"></ColumnDefinition>
-				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="0.2*"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
 
 			<Grid.RowDefinitions>
@@ -40,87 +40,103 @@
 			              Grid.ColumnSpan="4">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						
-						
-
-						<StackPanel Orientation="Vertical" Margin="0, 0, 0, 20"
-						            >
-							
-							<Grid>
-
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="80px"></ColumnDefinition>
-									<ColumnDefinition Width="*"></ColumnDefinition>
-									<ColumnDefinition Width="40"></ColumnDefinition>
-								</Grid.ColumnDefinitions>
-
-								
-								<Border Grid.ColumnSpan="2" Background="#f2e8cf" CornerRadius="15, 0, 0, 15"/>
-								<Border Background="#6a994e" CornerRadius="50" Margin="10"/>
-								<Button Grid.Column="3" Background="#a7c957" Margin="-1" Click="pokemon_Click" Tag="{Binding}">
-									<Button.Resources>
-										<Style TargetType="{x:Type Border}">
-											<Setter Property="CornerRadius" Value="0, 15, 15, 0"/>
-											<Setter Property="BorderBrush" Value="#a7c957"/>
-											<Setter Property="BorderThickness" Value="10"/>
-										</Style>
-									</Button.Resources>
-								</Button>
-								<Image Source="{Binding Sprite}" />
-								<Grid Grid.Column="1" Margin="10, 0, 20, 0">
-
-									<Grid.RowDefinitions>
-										<RowDefinition Height="35"></RowDefinition>
-										<RowDefinition Height="8"></RowDefinition>
-										<RowDefinition Height="35"></RowDefinition>
-									</Grid.RowDefinitions>
-
+						<Button Margin="0, 0, 0, 20"
+										        Click="pokemon_Click"
+										        Tag="{Binding}"
+										        Width="390">
+							<Button.Content>
+								<Grid Width="380">
 									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="*"></ColumnDefinition>
+										<ColumnDefinition Width="80px"></ColumnDefinition>
 										<ColumnDefinition Width="*"></ColumnDefinition>
 									</Grid.ColumnDefinitions>
 
-									<StackPanel Grid.Row="1"
-									            Grid.Column="0"
-									            Grid.ColumnSpan="2">
-										<Grid>
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition Width="{Binding HpPercentage}"></ColumnDefinition>
-												<ColumnDefinition Width="{Binding LostHpPercentage}"></ColumnDefinition>
-											</Grid.ColumnDefinitions>
+									<Border  Background="#6a994e" CornerRadius="50" Margin="10"/>
+									<Image Source="{Binding Sprite}" />
+									<Grid Grid.Column="1" Margin="10, 0, 15, 0">
 
-											<Border CornerRadius="5" Grid.Column="0" Grid.ColumnSpan="2" Margin ="2, 0, 0, 0" Height="8" Background="#6a994e"></Border>
-											<Border CornerRadius="5" Grid.Column="0" Height="8" Background="#a7c957"></Border>
-										</Grid>
-									</StackPanel>
+										<Grid.RowDefinitions>
+											<RowDefinition Height="35"></RowDefinition>
+											<RowDefinition Height="8"></RowDefinition>
+											<RowDefinition Height="35"></RowDefinition>
+										</Grid.RowDefinitions>
 
-									<TextBlock Grid.Column="0"
-									           Grid.ColumnSpan="2"
-									           VerticalAlignment="Center"
-									           Text="{Binding NickName}"/>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="*"></ColumnDefinition>
+											<ColumnDefinition Width="*"></ColumnDefinition>
+										</Grid.ColumnDefinitions>
 
-									<StackPanel Orientation="Horizontal"
-									            Grid.Row="2"
-									            Grid.Column="0"
-									            VerticalAlignment="Center">
-										<TextBlock Text="{Binding Hp}"/>
-										<TextBlock Text="/"/>
-										<TextBlock Text="{Binding MaxHp}"/>
-									</StackPanel>
-									
+										<StackPanel Grid.Row="1"
+											            Grid.Column="0"
+											            Grid.ColumnSpan="2">
+											<Grid>
+												<Grid.ColumnDefinitions>
+													<ColumnDefinition Width="{Binding HpPercentage}"></ColumnDefinition>
+													<ColumnDefinition Width="{Binding LostHpPercentage}"></ColumnDefinition>
+												</Grid.ColumnDefinitions>
 
-									<TextBlock TextAlignment="Right"
-											   VerticalAlignment="Center"
-									           Grid.Row="2"
-									           Grid.Column="1"
-									           Text="{Binding Level, StringFormat=Lv. {0}}"/>
+												<Border CornerRadius="5" Grid.Column="0" Grid.ColumnSpan="2" Margin ="2, 0, 0, 0" Height="8" Background="#6a994e"></Border>
+												<Border CornerRadius="5" Grid.Column="0" Height="8" Background="#a7c957"></Border>
+											</Grid>
+										</StackPanel>
+
+										<StackPanel Orientation="Horizontal"
+														            Grid.Column="0"
+														            Grid.ColumnSpan="2"
+														            VerticalAlignment="Center">
+											<TextBlock Text="{Binding NickName}"
+															           VerticalAlignment="Center"/>
+											<Border Background="#6a994e" CornerRadius="5" Margin="7, 0, 0, 0">
+												<TextBlock Text="{Binding NonVolatileStatus}"/>
+											</Border>
+										</StackPanel>
+										<StackPanel Orientation="Horizontal"
+											            Grid.Row="2"
+											            Grid.Column="0"
+											            VerticalAlignment="Center">
+											<TextBlock Text="{Binding Hp}"/>
+											<TextBlock Text="/"/>
+											<TextBlock Text="{Binding MaxHp}"/>
+										</StackPanel>
+
+										<TextBlock TextAlignment="Right"
+													   VerticalAlignment="Center"
+											           Grid.Row="2"
+											           Grid.Column="1"
+											           Text="{Binding Level, StringFormat=Lv. {0}}"/>
+									</Grid>
 								</Grid>
-							</Grid>
-
-						</StackPanel>
+							</Button.Content>
+							<Button.Style>
+								<Style TargetType="{x:Type Button}">
+									<Setter Property="Background" Value="#f2e8cf"/>
+									<Setter Property="Template">
+										<Setter.Value>
+											<ControlTemplate TargetType="{x:Type Button}">
+												<Border Background="{TemplateBinding Background}">
+													<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+												</Border>
+											</ControlTemplate>
+										</Setter.Value>
+									</Setter>
+									<Style.Triggers>
+										<Trigger Property="IsMouseOver" Value="True">
+											<Setter Property="Background" Value="#d0c6ad"/>
+										</Trigger>
+										<Trigger Property="IsEnabled" Value="False">
+											<Setter Property="Background" Value="#ac9b6f"/>
+										</Trigger>
+									</Style.Triggers>
+								</Style>
+							</Button.Style>
+							<Button.Resources>
+								<Style TargetType="{x:Type Border}">
+									<Setter Property="CornerRadius" Value="15"/>
+								</Style>
+							</Button.Resources>
+						</Button>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
-
 			</ItemsControl>
 		</Grid>
 		<Grid Grid.Column="1" Background="#f2e8cf">

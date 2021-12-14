@@ -24,6 +24,10 @@ namespace PokePlayer.Pages {
 		public void ValidateUsername(object sender, RoutedEventArgs e) {
 			if (!Trainer.TrainerExists(username.Text)) {
 				PokePlayerApplication.MainApplication.fullScreen.Content = new ChooseStarter(username.Text, password.Password);
+			} else {
+				userExists.Visibility = Visibility.Visible;
+				username.Text = "";
+				password.Password = "";
 			}
 		}
 	}

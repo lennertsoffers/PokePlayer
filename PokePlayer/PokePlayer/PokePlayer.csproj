@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Caliburn.Micro" Version="4.0.173" />
+    <PackageReference Include="FontAwesome5" Version="2.1.6" />
   </ItemGroup>
 
   <ItemGroup>

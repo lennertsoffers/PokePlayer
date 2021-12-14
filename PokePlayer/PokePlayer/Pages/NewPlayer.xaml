@@ -29,13 +29,13 @@
 			<ColumnDefinition Width="*"></ColumnDefinition>
 		</Grid.ColumnDefinitions>
 
-
 		<TextBlock TextAlignment="Center"
 		           FontSize="40"
 		           Grid.Row="1"
 		           Grid.ColumnSpan="3">
 			New Player
 		</TextBlock>
+
 		<Grid Grid.Row="3"
 		      Grid.Column="1">
 			<Grid.RowDefinitions>
@@ -72,5 +72,8 @@
 		        FontSize="25">
 			Create Account
 		</Button>
+
+		<Label x:Name="userExists" Content="User does already exist" Grid.Row="4" Grid.Column="1" FontSize="15" HorizontalAlignment="Center" Foreground="Red" FontWeight="Bold" Margin="0, 0, 0, 10" Padding="0" Visibility="Hidden" />
+
 	</Grid>
 </Page>

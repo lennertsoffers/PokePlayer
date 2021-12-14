@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "kk7lAE0yWotZ3ljgK8bqRkzHy6h5SHjHrOaKMSVPlP8YWzkaZeV0wY3rWzoJOV0pByNVGjCfU5w/oWaZg/sK8w==",
+  "dgSpecHash": "cB8pXjnAG5pc+ZptSn0Mc1zs+hRG2IOYH5FbuaB+6tTWQfsafcdWo3iMT+KkClhNj8saTHMnE99rX2UjxfLmGw==",
   "success": true,
   "projectFilePath": "C:\\Users\\lenne\\Documents\\School\\Semester_3\\DevOps & Security\\C#\\Project\\App .net5\\PokePlayer\\PokePlayer\\PokePlayer.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\lenne\\.nuget\\packages\\caliburn.micro\\4.0.173\\caliburn.micro.4.0.173.nupkg.sha512",
     "C:\\Users\\lenne\\.nuget\\packages\\caliburn.micro.core\\4.0.173\\caliburn.micro.core.4.0.173.nupkg.sha512",
     "C:\\Users\\lenne\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
+    "C:\\Users\\lenne\\.nuget\\packages\\fontawesome5\\2.1.6\\fontawesome5.2.1.6.nupkg.sha512",
     "C:\\Users\\lenne\\.nuget\\packages\\microsoft.data.sqlite\\6.0.0\\microsoft.data.sqlite.6.0.0.nupkg.sha512",
     "C:\\Users\\lenne\\.nuget\\packages\\microsoft.data.sqlite.core\\6.0.0\\microsoft.data.sqlite.core.6.0.0.nupkg.sha512",
     "C:\\Users\\lenne\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
