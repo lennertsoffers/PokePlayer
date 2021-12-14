@@ -23,7 +23,7 @@ namespace PokePlayer.Converters {
 			}
 
 			this.MaxPp = move.MaxPp;
-			this.Pp = move.Pp;
+			this.Pp = move.MaxPp;
 			this.TypeName = move.Type.TypeName;
 			this.Text = move.FlavourText;
 		}

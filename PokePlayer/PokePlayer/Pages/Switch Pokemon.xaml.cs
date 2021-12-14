@@ -18,8 +18,14 @@ using PokePlayer_Library.Models;
 
 namespace PokePlayer.Pages {
 	public partial class Switch_Pokemon : Page {
+
+		private int CarryPokemon;
+		private Pokemon ListPokemon;
+
 		public Switch_Pokemon(Trainer trainer) {
 			InitializeComponent();
+			this.CarryPokemon = 1;
+			this.ListPokemon = trainer.PokemonList[0];
 
 			List<PokemonConverter> partyPokemonData = new List<PokemonConverter>();
 			foreach (var pokemon in trainer.CarryPokemonList.Values) {
@@ -54,12 +60,26 @@ namespace PokePlayer.Pages {
 
 		private void SelectPartyPokemon(object sender, RoutedEventArgs e) {
 			Button button = (Button) sender;
-			party_pokemon_select.Content = (PokemonConverter) button.Tag;
+			PokemonConverter pokemonConverter = (PokemonConverter) button.Tag;
+			Trainer trainer = PokePlayerApplication.MainApplication.Trainer;
+			foreach (var key in trainer.CarryPokemonList.Keys) {
+				if (trainer.CarryPokemonList[key].Id == pokemonConverter.Id) {
+					this.CarryPokemon = key;
+				}
+			}
+			party_pokemon_select.Content = pokemonConverter;
 		}
 
 		private void SelectSwitchPokemon(object sender, RoutedEventArgs e) {
 			Button button = (Button) sender;
-			all_pokemon_select.Content = (PokemonConverter) button.Tag;
+			PokemonConverter pokemonConverter = (PokemonConverter) button.Tag;
+			this.ListPokemon = Pokemon.GetPokemon(pokemonConverter.Id);
+			all_pokemon_select.Content = pokemonConverter;
+		}
+
+		private void SwitchPokemon(object sender, RoutedEventArgs e) {
+			PokePlayerApplication.MainApplication.Trainer.SwitchOutPokemon(this.CarryPokemon, this.ListPokemon);
+			PokePlayerApplication.MainApplication.mainContent.Content = new Switch_Pokemon(PokePlayerApplication.MainApplication.Trainer);
 		}
 	}
 }

@@ -38,6 +38,23 @@ namespace PokePlayer.Pages {
 		public void SelectStarter(object sender, RoutedEventArgs e) {
 			Pokemon pokemon = Pokemon.GetPokemon(((PokemonConverter) ((Button) sender).Tag).Id);
 			Trainer trainer = new Trainer(this.Username, this.Password, pokemon);
+
+			Random r = new Random();
+			trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
+			trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
+			trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
+			trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
+			trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
+			trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
+			trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
+			trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
+			trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
+			trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
+			trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
+			trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
+			trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
+			trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
+
 			PokePlayerApplication.MainApplication.navBar.Content = new Navbar();
 			PokePlayerApplication.MainApplication.mainContent.Content = new View_Party(trainer);
 			PokePlayerApplication.MainApplication.fullScreen.Content = new ClearContent();

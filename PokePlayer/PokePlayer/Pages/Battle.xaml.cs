@@ -34,7 +34,7 @@ namespace PokePlayer.Pages {
 		}
 
 
-		
+
 		// ---- START BATTLE ---- //
 		async public void StartBattle() {
 			PokePlayerApplication.MainApplication.navBar.Visibility = Visibility.Hidden;
@@ -58,11 +58,11 @@ namespace PokePlayer.Pages {
 		private void ShowBattleMenu() {
 			if (!this.BattleEnds) {
 				BattleMenu.Visibility = Visibility.Visible;
+				SetOutputSync("What will you do?");
 			} else {
 				BattleMenu.Visibility = Visibility.Hidden;
 				this.BattleEnds = false;
 			}
-			SetOutputSync("What will you do?");
 		}
 
 		// Fight action
@@ -72,7 +72,8 @@ namespace PokePlayer.Pages {
 
 		// Throw pokeball action
 		private void ActionPokeball(object sender, RoutedEventArgs e) {
-			// pokeball
+			BattleMenu.Visibility = Visibility.Hidden;
+			CaptureAttempt();
 		}
 
 		// Switch action
@@ -442,7 +443,7 @@ namespace PokePlayer.Pages {
 					this.BattleEnds = true;
 					int experience = CalculateExperience(FirstPokemon, WildPokemon);
 					await SetOutputAsync(FirstPokemon.NickName + " got " + experience + "xp");
-					await UpdateXp(this.FirstPokemon, 50000);
+					await UpdateXp(this.FirstPokemon, experience);
 
 					await EndBattle();
 				} else {
@@ -633,6 +634,44 @@ namespace PokePlayer.Pages {
 			await SetHpAnimated(pokemon, -CalculateNonVolatileStatusDamage(pokemon, pokemon.NonVolatileStatus[status]));
 		}
 
+
+
+		// ---- CAPTURE POKEMON ---- //
+		async private void CaptureAttempt() {
+			await SetOutputAsync(Trainer.Name + " throws a pokeball");
+			int maxHp = WildPokemon.GetStat("hp").StatValue;
+			double a = (((3 * maxHp - 2 * WildPokemon.Hp) * WildPokemon.Specie.CaptureRate * 8) / (3 * maxHp));
+			if (WildPokemon.NonVolatileStatus["BRN"] != 0 ||
+			    WildPokemon.NonVolatileStatus["PAR"] != 0 ||
+			    WildPokemon.NonVolatileStatus["PSN"] != 0) {
+				a *= 1.5;
+			} else if (WildPokemon.NonVolatileStatus["FRZ"] != 0 ||
+			           WildPokemon.NonVolatileStatus["SLP"] != -1) {
+				a *= 2;
+			}
+
+			double shakeProbability = (1048560 / (Math.Sqrt(Math.Sqrt(16711680 / a))));
+
+			int shakes = 0;
+			while (shakes < 4 && random.Next(0, 65536) < shakeProbability) {
+				shakes++;
+				if (shakes == 4) {
+					await SetOutputAsync("You captured " + WildPokemon.NickName);
+				} else {
+					await SetOutputAsync("Shake " + shakes);
+				}
+			}
+
+			if (shakes < 4) {
+				await SetOutputAsync(WildPokemon.NickName + " got free");
+				await Turn(random.Next(1, WildPokemon.Moves.Count), WildPokemon, FirstPokemon);
+				ShowBattleMenu();
+			} else {
+				Trainer.AddPokemon(WildPokemon);
+				PokePlayerApplication.MainApplication.navBar.Visibility = Visibility.Visible;
+				PokePlayerApplication.MainApplication.mainContent.Content = new View_Party(Trainer);
+			}
+		}
 
 
 		// ---- CALCULATION METHODS ---- //

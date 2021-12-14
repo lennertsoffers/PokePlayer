@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PokePlayer_Library.Models;
+using PokePlayer_Library.Models.Pokemon;
 
 namespace PokePlayer.Pages {
 	/// <summary>

@@ -24,15 +24,6 @@ namespace PokePlayer {
 		public static PokePlayerApplication MainApplication { get; set; }
 		public PokePlayerApplication() {
 			InitializeComponent();
-			// this.Trainer = new Trainer("lennert", "1", new Pokemon(new Random().Next(1, 700), 30));
-			// this.Trainer.AddPokemon(new Pokemon(new Random().Next(1, 700), 30));
-			// this.Trainer.AddPokemon(new Pokemon(new Random().Next(1, 700), 30));
-			// this.Trainer.AddPokemon(new Pokemon(new Random().Next(1, 700), 30));
-			// this.Trainer.AddPokemon(new Pokemon(new Random().Next(1, 700), 30));
-			// this.Trainer.AddPokemon(new Pokemon(new Random().Next(1, 700), 30));
-
-			navBar.Content = new Navbar();
-			// mainContent.Content = new TestDb();
 			fullScreen.Content = new PreLogin();
 			MainApplication = this;
 		}
