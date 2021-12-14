@@ -11,7 +11,6 @@ namespace PokePlayer.Converters {
 		public int Pp { get; }
 		public string TypeName { get; }
 		public string Text { get; }
-		public bool IsEnabled { get; }
 		public int PokemonMoveId { get; }
 
 		public MoveConverter(Move move, int pokemonMoveId=-1) {
@@ -25,7 +24,6 @@ namespace PokePlayer.Converters {
 
 			this.MaxPp = move.MaxPp;
 			this.Pp = move.Pp;
-			this.IsEnabled = move.Pp != 0 ? true : false;
 			this.TypeName = move.Type.TypeName;
 			this.Text = move.FlavourText;
 		}

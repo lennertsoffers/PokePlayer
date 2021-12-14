@@ -32,7 +32,8 @@ namespace PokePlayer {
 			// this.Trainer.AddPokemon(new Pokemon(new Random().Next(1, 700), 30));
 
 			navBar.Content = new Navbar();
-			mainContent.Content = new TestDb();
+			// mainContent.Content = new TestDb();
+			fullScreen.Content = new PreLogin();
 			MainApplication = this;
 		}
 	}

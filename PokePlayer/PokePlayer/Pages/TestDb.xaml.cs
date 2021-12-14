@@ -98,6 +98,14 @@ namespace PokePlayer.Pages {
 			// Debug.WriteLine(Pokemon.GetPokemon(id).GetStat("hp").StatValue);
 			// Pokemon.GetPokemon(id).AddExperience(50000);
 			// Debug.WriteLine(Pokemon.GetPokemon(id).GetStat("hp").StatValue);
+			//
+			// Pokemon pokemon = new Pokemon(213, 23, "testP");
+			// int id = pokemon.Id;
+			//
+			// Debug.WriteLine(JsonConvert.SerializeObject(pokemon.MovePpMapping));
+			// pokemon = Pokemon.GetPokemon(id);
+			// Debug.WriteLine(JsonConvert.SerializeObject(pokemon.MovePpMapping));
+
 		}
 	}
 }

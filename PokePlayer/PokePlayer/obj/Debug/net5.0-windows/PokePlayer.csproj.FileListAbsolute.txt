@@ -110,3 +110,5 @@ C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\Pages\TestDb.baml
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\Pages\View Party.baml
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\PokePlayerApplication.baml
+C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\Pages\ClearContent.g.cs
+C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\Pages\ClearContent.baml

@@ -182,7 +182,8 @@
 		<Grid Column="3" Background="#6a994e"></Grid>
 
 		<Button  Grid.Column="4"
-		         Content="Logout">
+		         Content="Logout"
+		         Click="Logout">
 			<Button.Triggers>
 				<EventTrigger RoutedEvent="TextBlock.MouseEnter">
 					<BeginStoryboard>

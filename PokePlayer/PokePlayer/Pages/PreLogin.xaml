@@ -37,17 +37,20 @@
 	               Welcome to PokePlayer
 		</TextBlock>
 		
-        <Button Grid.Row="3"
+        <Button Click="Login"
+                Grid.Row="3"
                 Grid.Column="1">
 	        Login
         </Button>
 
-	    <Button Grid.Row="5"
+	    <Button Click="NewPlayer"
+				Grid.Row="5"
 	            Grid.Column="1">
 		    New Player
 	    </Button>
 
-	    <Button Grid.Row="7"
+	    <Button Click="Quit"
+				Grid.Row="7"
 	            Grid.Column="1">
 		    Quit
 	    </Button>

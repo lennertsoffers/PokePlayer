@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -10,21 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using PokePlayer_Library.Models;
 
 namespace PokePlayer.Pages {
 	/// <summary>
-	/// Interaction logic for NewPlayer.xaml
+	/// Interaction logic for ClearContent.xaml
 	/// </summary>
-	public partial class NewPlayer : Page {
-		public NewPlayer() {
+	public partial class ClearContent : Page {
+		public ClearContent() {
 			InitializeComponent();
-		}
-
-		public void ValidateUsername(object sender, RoutedEventArgs e) {
-			if (!Trainer.TrainerExists(username.Text)) {
-				PokePlayerApplication.MainApplication.fullScreen.Content = new ChooseStarter(username.Text, password.Password);
-			}
 		}
 	}
 }

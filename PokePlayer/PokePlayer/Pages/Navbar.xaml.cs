@@ -35,5 +35,9 @@ namespace PokePlayer.Pages {
 			PokePlayerApplication.MainApplication.mainContent.Content = battle;
 			battle.StartBattle();
 		}
+
+		public void Logout(object sender, RoutedEventArgs e) {
+			PokePlayerApplication.MainApplication.fullScreen.Content = new PreLogin();
+		}
 	}
 }

@@ -2,6 +2,11 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="Pages\ClearContent.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="App.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -9,6 +14,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\ChooseStarter.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\ClearContent.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Pages\Login.xaml">

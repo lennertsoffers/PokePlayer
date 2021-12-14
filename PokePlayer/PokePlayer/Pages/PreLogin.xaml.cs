@@ -19,5 +19,17 @@ namespace PokePlayer.Pages {
 		public PreLogin() {
 			InitializeComponent();
 		}
+
+		public void Login(object sender, RoutedEventArgs e) {
+			PokePlayerApplication.MainApplication.fullScreen.Content = new Login();
+		}
+
+		public void NewPlayer(object sender, RoutedEventArgs e) {
+			PokePlayerApplication.MainApplication.fullScreen.Content = new NewPlayer();
+		}
+
+		public void Quit(object sender, RoutedEventArgs e) {
+			System.Windows.Application.Current.Shutdown();
+		}
 	}
 }

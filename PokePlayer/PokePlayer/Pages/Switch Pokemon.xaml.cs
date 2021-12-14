@@ -29,14 +29,26 @@ namespace PokePlayer.Pages {
 			party_pokemon_select.Content = partyPokemonData[0];
 			party_pokemon_list.ItemsSource = partyPokemonData;
 
-			List<PokemonConverter> allPokemonData = partyPokemonData;
+			List<PokemonConverter> allPokemonData = new List<PokemonConverter>();
 			foreach (var pokemon in trainer.PokemonList) {
-				if (!trainer.CarryPokemonList.Values.Contains(pokemon)) {
+				bool carriesPokemon = false;
+				foreach (var p in trainer.CarryPokemonList.Values) {
+					if (p.Id == pokemon.Id) {
+						carriesPokemon = true;
+					}
+				}
+
+				if (!carriesPokemon) {
 					allPokemonData.Add(new PokemonConverter(pokemon));
 				}
 			}
 
-			all_pokemon_select.Content = allPokemonData[0];
+			if (allPokemonData.Count == 0) {
+				all_pokemon_select.Visibility = Visibility.Hidden;
+			} else {
+				all_pokemon_select.Visibility = Visibility.Visible;
+				all_pokemon_select.Content = allPokemonData[0];
+			}
 			all_pokemon_list.ItemsSource = allPokemonData;
 		}
 

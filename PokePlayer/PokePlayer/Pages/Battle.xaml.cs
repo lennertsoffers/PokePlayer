@@ -111,7 +111,7 @@ namespace PokePlayer.Pages {
 			await SetOutputAsync(Trainer.Name + " switched to " + this.FirstPokemon.NickName);
 			trainerPokemon.Content = new PokemonConverter(this.FirstPokemon);
 			if (!this.ObligatedSwitch) {
-				await Turn(random.Next(1, 5), WildPokemon, FirstPokemon);
+				await Turn(random.Next(1, WildPokemon.Moves.Count), WildPokemon, FirstPokemon);
 			}
 
 			this.ObligatedSwitch = false;
@@ -126,28 +126,40 @@ namespace PokePlayer.Pages {
 			MoveMenu.Visibility = Visibility.Visible;
 			SetOutputSync("Choose a move");
 			if (FirstPokemon.Moves.ContainsKey(1)) {
+				Move1Button.Visibility = Visibility.Visible;
 				MoveConverter moveData = new MoveConverter(FirstPokemon.Moves[1]);
 				Move1ButtonName.Text = moveData.MoveName;
-				Move1ButtonPp.Text = moveData.Pp + " / " + moveData.MaxPp;
-				Move1Button.IsEnabled = moveData.IsEnabled;
+				Move1ButtonPp.Text = FirstPokemon.MovePpMapping[1] + " / " + moveData.MaxPp;
+				Move1Button.IsEnabled = FirstPokemon.MovePpMapping[1] > 0;
+			} else {
+				Move1Button.Visibility = Visibility.Hidden;
 			}
 			if (FirstPokemon.Moves.ContainsKey(2)) {
+				Move2Button.Visibility = Visibility.Visible;
 				MoveConverter moveData = new MoveConverter(FirstPokemon.Moves[2]);
 				Move2ButtonName.Text = moveData.MoveName;
-				Move2ButtonPp.Text = moveData.Pp + " / " + moveData.MaxPp;
-				Move2Button.IsEnabled = moveData.IsEnabled;
+				Move2ButtonPp.Text = FirstPokemon.MovePpMapping[2] + " / " + moveData.MaxPp;
+				Move2Button.IsEnabled = FirstPokemon.MovePpMapping[2] > 0;
+			} else {
+				Move2Button.Visibility = Visibility.Hidden;
 			}
 			if (FirstPokemon.Moves.ContainsKey(3)) {
+				Move3Button.Visibility = Visibility.Visible;
 				MoveConverter moveData = new MoveConverter(FirstPokemon.Moves[3]);
 				Move3ButtonName.Text = moveData.MoveName;
-				Move3ButtonPp.Text = moveData.Pp + " / " + moveData.MaxPp;
-				Move3Button.IsEnabled = moveData.IsEnabled;
+				Move3ButtonPp.Text = FirstPokemon.MovePpMapping[3] + " / " + moveData.MaxPp;
+				Move3Button.IsEnabled = FirstPokemon.MovePpMapping[3] > 0;
+			} else {
+				Move3Button.Visibility = Visibility.Hidden;
 			}
 			if (FirstPokemon.Moves.ContainsKey(4)) {
+				Move4Button.Visibility = Visibility.Visible;
 				MoveConverter moveData = new MoveConverter(FirstPokemon.Moves[4]);
 				Move4ButtonName.Text = moveData.MoveName;
-				Move4ButtonPp.Text = moveData.Pp + " / " + moveData.MaxPp;
-				Move4Button.IsEnabled = moveData.IsEnabled;
+				Move4ButtonPp.Text = FirstPokemon.MovePpMapping[4] + " / " + moveData.MaxPp;
+				Move4Button.IsEnabled = FirstPokemon.MovePpMapping[4] > 0;
+			} else {
+				Move4Button.Visibility = Visibility.Hidden;
 			}
 		}
 
@@ -174,11 +186,7 @@ namespace PokePlayer.Pages {
 		private void TeachMove(Pokemon pokemon, Move move) {
 			teachMoveContent.Content = new MoveConverter(move);
 			teachMove.Visibility = Visibility.Visible;
-			if (pokemon.Moves.Count == 4) {
-				teachMoveMenu.Visibility = Visibility.Visible;
-			} else {
-				teachMoveContinue.Visibility = Visibility.Hidden;
-			}
+			teachMoveMenu.Visibility = Visibility.Visible;
 		}
 
 		private void TeachMoveContinueButton(object sender, RoutedEventArgs e) {
@@ -459,20 +467,30 @@ namespace PokePlayer.Pages {
 		// ---- UPDATING OF XP ---- //
 		async private Task UpdateXp(Pokemon pokemon, int xp) {
 			foreach (var move in pokemon.AddExperience(xp)) {
-				await SetOutputAsync(pokemon.NickName + " wants to learn the move " + move.MoveName + "\nDo you want to learn it?", true);
-				TeachMove(pokemon, move);
-				tcs = new TaskCompletionSource<int>();
-				int id = await tcs.Task;
-				if (id != -1) {
-					await SetOutputAsync("1, 2, 3 and...");
-					await SetOutputAsync("Poooof");
-					if (pokemon.Moves.ContainsKey(id)) {
-						await SetOutputAsync(pokemon.NickName + " forgot how to " + pokemon.Moves[id].MoveName);
-					}
-					pokemon.Moves[id] = move;
+				if (pokemon.Moves.Count < 4) {
 					await SetOutputAsync(pokemon.NickName + " learned the move " + move.MoveName);
+					pokemon.Moves.Add(pokemon.Moves.Count + 1, move);
 				} else {
-					await SetOutputAsync(pokemon.NickName + " did not learn the move " + move.MoveName);
+					await SetOutputAsync(
+						pokemon.NickName + " wants to learn the move " + move.MoveName + "\nDo you want to learn it?",
+						true);
+					TeachMove(pokemon, move);
+					tcs = new TaskCompletionSource<int>();
+					int id = await tcs.Task;
+					if (id != -1) {
+						await SetOutputAsync("1, 2, 3 and...");
+						await SetOutputAsync("Poooof");
+						if (pokemon.Moves.ContainsKey(id)) {
+							await SetOutputAsync(pokemon.NickName + " forgot how to " + pokemon.Moves[id].MoveName);
+						}
+
+						pokemon.Moves[id] = move;
+						pokemon.UpdateMovePp();
+						await SetOutputAsync(pokemon.NickName + " learned the move " + move.MoveName);
+
+					} else {
+						await SetOutputAsync(pokemon.NickName + " did not learn the move " + move.MoveName);
+					}
 				}
 			}
 		}
@@ -652,7 +670,7 @@ namespace PokePlayer.Pages {
 			Move move = Attacker.Moves[MoveId];
 			double a;
 			double d;
-			move.Pp--;
+			Attacker.MovePpMapping[MoveId]--;
 			Dictionary<string, string> outputDictionary = new Dictionary<string, string>();
 			if (move.Power != -1) {
 				if (move.DamageClass == "physical") {
