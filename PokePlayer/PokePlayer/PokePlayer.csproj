@@ -7,12 +7,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\pokeball_form_1.png" />
+    <None Remove="Pages\pokeball_form_1.png" />
+    <None Remove="Pages\pokeball_form_2.png" />
+    <None Remove="Pages\pokeball_form_3.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Caliburn.Micro" Version="4.0.173" />
     <PackageReference Include="FontAwesome5" Version="2.1.6" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Pokeplayer_Library\Pokeplayer_Library\Pokeplayer_Library.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\pokeball_form_1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Pages\pokeball_form_1.png" />
+    <Resource Include="Pages\pokeball_form_2.png" />
+    <Resource Include="Pages\pokeball_form_3.png" />
   </ItemGroup>
 
 </Project>

@@ -4,6 +4,7 @@ using PokePlayer_Library.Models.Pokemon;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -640,11 +641,13 @@ namespace PokePlayer.Pages {
 			await SetHpAnimated(pokemon, -CalculateNonVolatileStatusDamage(pokemon, pokemon.NonVolatileStatus[status]));
 		}
 
-
-
 		// ---- CAPTURE POKEMON ---- //
 		async private void CaptureAttempt() {
 			await SetOutputAsync(Trainer.Name + " throws a pokeball");
+
+			await PlayThrowPokeBallAnimation();
+			await PlayOpenPokeballAnimation();
+
 			int maxHp = WildPokemon.GetStat("hp").StatValue;
 			double a = (((3 * maxHp - 2 * WildPokemon.Hp) * WildPokemon.Specie.CaptureRate * 8) / (3 * maxHp));
 			if (WildPokemon.NonVolatileStatus["BRN"] != 0 ||
@@ -662,13 +665,17 @@ namespace PokePlayer.Pages {
 			while (shakes < 4 && random.Next(0, 65536) < shakeProbability) {
 				shakes++;
 				if (shakes == 4) {
-					await SetOutputAsync("You captured " + WildPokemon.NickName);
+					pokeball_form_1.Opacity = 0.8;
+					await SetOutputAsync("Congratulations!\nYou captured " + WildPokemon.NickName);
 				} else {
-					await SetOutputAsync("Shake " + shakes);
+					SetOutputSync("Shake " + shakes);
+					await PlayWiggleAnimation();
+					await Task.Delay(1500);
 				}
 			}
 
 			if (shakes < 4) {
+				await PlayOpenPokeballAnimation(true);
 				await SetOutputAsync(WildPokemon.NickName + " got free");
 				await Turn(random.Next(1, WildPokemon.Moves.Count), WildPokemon, FirstPokemon);
 				ShowBattleMenu();
@@ -678,6 +685,90 @@ namespace PokePlayer.Pages {
 				PokePlayerApplication.MainApplication.mainContent.Content = new View_Party(Trainer);
 			}
 		}
+
+		async private Task PlayThrowPokeBallAnimation() {
+			pokeball_form_1.Visibility = Visibility.Visible;
+			Storyboard sb = new Storyboard();
+			DoubleAnimation moveRight = new DoubleAnimation();
+			DoubleAnimation moveUp = new DoubleAnimation();
+			ExponentialEase ease = new ExponentialEase();
+			ease.EasingMode = EasingMode.EaseOut;
+			moveRight.EasingFunction = ease;
+			moveUp.EasingFunction = ease;
+			Duration duration = new Duration(TimeSpan.FromSeconds(1.3));
+			moveRight.Duration = duration;
+			moveUp.Duration = duration;
+			sb.Children.Add(moveRight);
+			sb.Children.Add(moveUp);
+
+			Pokeball.RenderTransform = new TranslateTransform();
+			Storyboard.SetTarget(moveRight, Pokeball);
+			Storyboard.SetTarget(moveUp, Pokeball);
+			Storyboard.SetTargetProperty(moveRight, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.X)"));
+			moveRight.From = -200;
+			moveRight.To = 200;
+			Storyboard.SetTargetProperty(moveUp, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.Y)"));
+			moveUp.From = 100;
+			moveUp.To = -100;
+			sb.Begin();
+			await Task.Delay(1500);
+		}
+
+		async private Task PlayOpenPokeballAnimation(bool escape = false) {
+			pokeball_form_1.Visibility = Visibility.Hidden;
+			pokeball_form_2.Visibility = Visibility.Visible;
+			await Task.Delay(50);
+			pokeball_form_2.Visibility = Visibility.Hidden;
+			pokeball_form_3.Visibility = Visibility.Visible;
+			await Task.Delay(50);
+			
+			if (escape) {
+				wildPokemon.Visibility = Visibility.Visible;
+			} else {
+				wildPokemon.Visibility = Visibility.Hidden;
+			}
+
+			await Task.Delay(100);
+			pokeball_form_3.Visibility = Visibility.Hidden;
+			pokeball_form_2.Visibility = Visibility.Visible;
+			await Task.Delay(50);
+			pokeball_form_2.Visibility = Visibility.Hidden;
+			pokeball_form_1.Visibility = Visibility.Visible;
+			await Task.Delay(1000);
+
+			if (escape) {
+				pokeball_form_1.Visibility = Visibility.Hidden;
+			}
+		}
+
+		async private Task PlayWiggleAnimation() {
+			await PlayRotateAnimation(0, 20, 100, EasingMode.EaseIn);
+			await PlayRotateAnimation(20, -20, 200, EasingMode.EaseInOut);
+			await PlayRotateAnimation(-20, 0, 100, EasingMode.EaseInOut);
+		}
+
+		async private Task PlayRotateAnimation(int fromAngle, int toAngle, int animationTime, EasingMode easingMode) {
+			Storyboard sb = new Storyboard();
+			DoubleAnimation rotate = new DoubleAnimation();
+			ExponentialEase ease = new ExponentialEase();
+			ease.EasingMode = easingMode;
+			rotate.EasingFunction = ease;
+			Duration duration = new Duration(TimeSpan.FromMilliseconds(animationTime));
+			rotate.Duration = duration;
+			sb.Children.Add(rotate);
+
+			RotateTransform rotateTransform = new RotateTransform();
+			rotateTransform.CenterX = 35;
+			rotateTransform.CenterY = 100;
+			Pokeball.RenderTransform = rotateTransform;
+			Storyboard.SetTarget(rotate, Pokeball);
+			Storyboard.SetTargetProperty(rotate, new PropertyPath("(UIElement.RenderTransform).(RotateTransform.Angle)"));
+			rotate.From = fromAngle;
+			rotate.To = toAngle;
+			sb.Begin();
+			await Task.Delay(animationTime);
+		}
+
 
 
 		// ---- CALCULATION METHODS ---- //

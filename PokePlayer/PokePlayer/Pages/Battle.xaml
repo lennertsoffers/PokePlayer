@@ -16,6 +16,15 @@
             <RowDefinition Height="200"></RowDefinition>
         </Grid.RowDefinitions>
 
+		<Grid ZIndex="320" Height="100" Width="70" x:Name="Pokeball">
+			<Grid.RenderTransform>
+				<TranslateTransform x:Name="Transform" X="-200" Y="100"/>
+			</Grid.RenderTransform>
+			<Image x:Name="pokeball_form_1" Width="70" Source="/Pages/pokeball_form_1.png" Visibility="Hidden"/>
+			<Image x:Name="pokeball_form_2" Source="/Pages/pokeball_form_2.png" Width="70" Visibility="Hidden"/>
+			<Image x:Name="pokeball_form_3" Width="70" Source="/Pages/pokeball_form_3.png" Visibility="Hidden"/>
+		</Grid>
+
 		<Grid ZIndex="1" x:Name="selectMoveToForget" Visibility="Hidden">
 		    <Grid Background="Gray" Opacity="0.6" ZIndex="1"/>
 
@@ -200,7 +209,7 @@
 											<Button.Content>
 												<Grid MinWidth="300">
 													<Grid.ColumnDefinitions>
-														<ColumnDefinition Width="80px"></ColumnDefinition>
+														<ColumnDefinition Width="80"></ColumnDefinition>
 														<ColumnDefinition Width="*"></ColumnDefinition>
 													</Grid.ColumnDefinitions>
 

@@ -1,4 +1,4 @@
-﻿<Page x:Class="PokePlayer.Pages.Switch_Pokemon"
+﻿	<Page x:Class="PokePlayer.Pages.Switch_Pokemon"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -222,8 +222,8 @@
 			</Grid.ColumnDefinitions>
 
 
-			<StackPanel  Grid.Column="1" Grid.Row="1" Margin="0, 45, 0, 30">
-				<ItemsControl x:Name="all_pokemon_list" MaxWidth="400" MinWidth="320">
+			<StackPanel  Grid.Column="1" Grid.Row="1" Margin="20, 45, 20, 30">
+				<ItemsControl x:Name="all_pokemon_list" MinWidth="320">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
 							<Grid>
