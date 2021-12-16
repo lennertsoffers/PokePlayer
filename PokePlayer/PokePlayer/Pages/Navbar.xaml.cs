@@ -32,7 +32,7 @@ namespace PokePlayer.Pages {
 
 		public void wildBattle(object sender, RoutedEventArgs e) {
 			Battle battle = new Battle(PokePlayerApplication.MainApplication.Trainer);
-			PokePlayerApplication.MainApplication.mainContent.Content = battle;
+			PokePlayerApplication.MainApplication.fullScreen.Content = battle;
 			battle.StartBattle();
 		}
 

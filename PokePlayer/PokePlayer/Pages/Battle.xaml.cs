@@ -41,8 +41,8 @@ namespace PokePlayer.Pages {
 			PokePlayerApplication.MainApplication.navBar.Visibility = Visibility.Hidden;
 			this.FirstPokemon = Trainer.CarryPokemonList[0];
 			
-			this.WildPokemon = new Pokemon(random.Next(1, 700), random.Next(FirstPokemon.Level - 5, FirstPokemon.Level + 6));
-			// this.WildPokemon = new Pokemon(1, 1);
+			// this.WildPokemon = new Pokemon(random.Next(1, 700), random.Next(FirstPokemon.Level - 5, FirstPokemon.Level + 6));
+			this.WildPokemon = new Pokemon(493, 100);
 
 			wildPokemon.Content = new PokemonConverter(this.WildPokemon);
 			trainerPokemon.Content = new PokemonConverter(this.FirstPokemon);
@@ -102,6 +102,7 @@ namespace PokePlayer.Pages {
 				await SetOutputAsync("Got away safely");
 				PokePlayerApplication.MainApplication.navBar.Visibility = Visibility.Visible;
 				PokePlayerApplication.MainApplication.mainContent.Content = new View_Party(Trainer);
+				PokePlayerApplication.MainApplication.fullScreen.Content = new ClearContent();
 			} else {
 				await SetOutputAsync("Can't escape");
 			}
@@ -180,7 +181,7 @@ namespace PokePlayer.Pages {
 					await Turn(random.Next(1, WildPokemon.Moves.Count), WildPokemon, FirstPokemon);
 				}
 			} else {
-				await Turn(random.Next(1, 5), WildPokemon, FirstPokemon);
+				await Turn(random.Next(1, WildPokemon.Moves.Count), WildPokemon, FirstPokemon);
 				if (!this.BattleEnds) {
 					await Turn(int.Parse((string) button.Tag), FirstPokemon, WildPokemon);
 				}
@@ -468,6 +469,7 @@ namespace PokePlayer.Pages {
 
 			PokePlayerApplication.MainApplication.navBar.Visibility = Visibility.Visible;
 			PokePlayerApplication.MainApplication.mainContent.Content = new View_Party(Trainer);
+			PokePlayerApplication.MainApplication.fullScreen.Content = new ClearContent();
 		}
 
 
@@ -683,6 +685,7 @@ namespace PokePlayer.Pages {
 				Trainer.AddPokemon(WildPokemon);
 				PokePlayerApplication.MainApplication.navBar.Visibility = Visibility.Visible;
 				PokePlayerApplication.MainApplication.mainContent.Content = new View_Party(Trainer);
+				PokePlayerApplication.MainApplication.fullScreen.Content = new ClearContent();
 			}
 		}
 

@@ -114,5 +114,4 @@ C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\Pages\ClearContent.baml
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\bin\Debug\net5.0-windows\FontAwesome5.Net.dll
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\bin\Debug\net5.0-windows\FontAwesome5.dll
-C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\bin\Debug\net5.0-windows\Assets\pokeball_form_1.png
-C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\PokePlayer_Content.g.cs
+C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\PokePlayer.csproj.CopyComplete

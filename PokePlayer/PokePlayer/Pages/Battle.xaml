@@ -16,7 +16,9 @@
             <RowDefinition Height="200"></RowDefinition>
         </Grid.RowDefinitions>
 
-		<Grid ZIndex="320" Height="100" Width="70" x:Name="Pokeball">
+		<Image Source="/Pages/BattlebgGrassy.png" Stretch="Fill"></Image>
+
+		<Grid ZIndex="2" Height="100" Width="70" x:Name="Pokeball">
 			<Grid.RenderTransform>
 				<TranslateTransform x:Name="Transform" X="-200" Y="100"/>
 			</Grid.RenderTransform>
@@ -25,7 +27,7 @@
 			<Image x:Name="pokeball_form_3" Width="70" Source="/Pages/pokeball_form_3.png" Visibility="Hidden"/>
 		</Grid>
 
-		<Grid ZIndex="1" x:Name="selectMoveToForget" Visibility="Hidden">
+	    <Grid ZIndex="1" x:Name="selectMoveToForget" Visibility="Hidden">
 		    <Grid Background="Gray" Opacity="0.6" ZIndex="1"/>
 
 		    <Grid ZIndex="3">
@@ -312,24 +314,31 @@
 			</Grid>
 		</Grid>
 
-		<Grid Grid.Row="0" Background="#f2e8cf">
-			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="30"></RowDefinition>
-					<RowDefinition Height="*"></RowDefinition>
-					<RowDefinition Height="*"></RowDefinition>
-					<RowDefinition Height="*"></RowDefinition>
-					<RowDefinition Height="30"></RowDefinition>
-				</Grid.RowDefinitions>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="30"></ColumnDefinition>
-					<ColumnDefinition Width="*"></ColumnDefinition>
-					<ColumnDefinition Width="*"></ColumnDefinition>
-					<ColumnDefinition Width="*"></ColumnDefinition>
-					<ColumnDefinition Width="30"></ColumnDefinition>
-				</Grid.ColumnDefinitions>
+		<Grid Grid.Row="0">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="30"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="30"></RowDefinition>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="30"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="30"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
 
-				<ContentControl x:Name="trainerPokemon" Grid.Row="2" Grid.Column="1" Grid.RowSpan="2">
+			<Grid Grid.Row="2" Grid.Column="1" Grid.RowSpan="2">
+				<Image Margin="0, 0, 0, -50" Source="/Pages/backgroun.png"></Image>
+			</Grid>
+
+			<Grid Grid.Row="2" Grid.Column="3" Grid.RowSpan="1">
+				<Image Margin="0, 0, 0, 70" Source="/Pages/backgroun.png"></Image>
+			</Grid>
+
+			<ContentControl x:Name="trainerPokemon" Grid.Row="2" Grid.Column="1" Grid.RowSpan="2">
 					<ContentControl.ContentTemplate>
 						<DataTemplate>
 							<Grid Row="1" RowSpan="2" Column="3">
@@ -339,13 +348,13 @@
 									<RowDefinition Height="*"></RowDefinition>
 									<RowDefinition Height="*"></RowDefinition>
 								</Grid.RowDefinitions>
-
+				
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="0.25*"></ColumnDefinition>
 									<ColumnDefinition Width="*"></ColumnDefinition>
 									<ColumnDefinition Width="0.25*"></ColumnDefinition>
 								</Grid.ColumnDefinitions>
-
+				
 								<Grid Column="1" RowSpan="3">
 									<Image RenderTransformOrigin="0.5, 0.5" Source="{Binding SpriteBack}">
 										<Image.RenderTransform>
@@ -353,30 +362,30 @@
 										</Image.RenderTransform>
 									</Image>
 								</Grid>
-
+				
 								<Grid ColumnSpan="3"  Row="3">
 									<Grid>
 										<Grid.ColumnDefinitions>
 											<ColumnDefinition Width="80px"></ColumnDefinition>
 											<ColumnDefinition Width="*"></ColumnDefinition>
 										</Grid.ColumnDefinitions>
-
+				
 										<Border Grid.ColumnSpan="2" Background="#386641" CornerRadius="15"/>
 										<Border Background="#6a994e" CornerRadius="50" Margin="10"/>
 										<Image Source="{Binding Sprite}" />
 										<Grid Grid.Column="1" Margin="10, 0, 20, 0">
-
+				
 											<Grid.RowDefinitions>
 												<RowDefinition Height="35"></RowDefinition>
 												<RowDefinition Height="8"></RowDefinition>
 												<RowDefinition Height="35"></RowDefinition>
 											</Grid.RowDefinitions>
-
+				
 											<Grid.ColumnDefinitions>
 												<ColumnDefinition Width="*"></ColumnDefinition>
 												<ColumnDefinition Width="*"></ColumnDefinition>
 											</Grid.ColumnDefinitions>
-
+				
 											<StackPanel Grid.Row="1"
 											            Grid.Column="0"
 											            Grid.ColumnSpan="2">
@@ -385,12 +394,12 @@
 														<ColumnDefinition x:Name="test"  Width="{Binding HpPercentage}"></ColumnDefinition>
 														<ColumnDefinition Width="{Binding LostHpPercentage}"></ColumnDefinition>
 													</Grid.ColumnDefinitions>
-
+				
 													<Border CornerRadius="5" Grid.Column="0" Grid.ColumnSpan="2" Margin ="2, 0, 0, 0" Height="8" Background="#6a994e"></Border>
 													<Border CornerRadius="5" Grid.Column="0" Height="8" Background="#a7c957"></Border>
 												</Grid>
 											</StackPanel>
-
+				
 											<StackPanel Orientation="Horizontal"
 											            Grid.Column="0"
 											            Grid.ColumnSpan="2"
@@ -401,7 +410,7 @@
 													<TextBlock Text="{Binding NonVolatileStatus}"/>
 												</Border>
 											</StackPanel>
-
+				
 											<StackPanel Orientation="Horizontal"
 											            Grid.Row="2"
 											            Grid.Column="0"
@@ -410,8 +419,8 @@
 												<TextBlock Text="/"/>
 												<TextBlock Text="{Binding MaxHp}"/>
 											</StackPanel>
-
-
+				
+				
 											<TextBlock TextAlignment="Right"
 											   VerticalAlignment="Center"
 									           Grid.Row="2"
@@ -425,7 +434,7 @@
 					</ContentControl.ContentTemplate>
 				</ContentControl>
 
-				<ContentControl x:Name="wildPokemon" Grid.Row="1" Grid.Column="3" Grid.RowSpan="2">
+			<ContentControl x:Name="wildPokemon" Grid.Row="1" Grid.Column="3" Grid.RowSpan="2">
 					<ContentControl.ContentTemplate>
 						<DataTemplate>
 							<Grid Row="1" RowSpan="2" Column="3">
@@ -443,10 +452,10 @@
 								</Grid.ColumnDefinitions>
 
 								<Grid Column="1" RowSpan="3">
-									<Image RenderTransformOrigin="0.5, 0.5" Source="{Binding Sprite}">
-									<Image.RenderTransform>
-										<ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-									</Image.RenderTransform>
+									<Image x:Name="wildPokemonSprite" RenderTransformOrigin="0.5, 0.5" Source="{Binding Sprite}">
+										<Image.RenderTransform>
+											<ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+										</Image.RenderTransform>
 									</Image>
 								</Grid>
 
@@ -519,7 +528,6 @@
 						</DataTemplate>
 					</ContentControl.ContentTemplate>
 				</ContentControl>
-			</Grid>
 		</Grid>
 		<Grid Grid.Row="1" Background="#386641">
             <Grid.RowDefinitions>
@@ -611,7 +619,7 @@
 						</Button.Content>
 						<Button.Style>
 							<Style TargetType="{x:Type Button}">
-								<Setter Property="Background" Value="DarkRed"/>
+								<Setter Property="Background" Value="#f94144"/>
 								<Setter Property="Template">
 									<Setter.Value>
 										<ControlTemplate TargetType="{x:Type Button}">
@@ -623,7 +631,7 @@
 								</Setter>
 								<Style.Triggers>
 									<Trigger Property="IsMouseOver" Value="True">
-										<Setter Property="Background" Value="Red"/>
+										<Setter Property="Background" Value="#ff0e0e"/>
 									</Trigger>
 								</Style.Triggers>
 							</Style>
@@ -650,7 +658,7 @@
 						</Button.Content>
 						<Button.Style>
 							<Style TargetType="{x:Type Button}">
-								<Setter Property="Background" Value="DarkBlue"/>
+								<Setter Property="Background" Value="#577590"/>
 								<Setter Property="Template">
 									<Setter.Value>
 										<ControlTemplate TargetType="{x:Type Button}">
@@ -662,7 +670,7 @@
 								</Setter>
 								<Style.Triggers>
 									<Trigger Property="IsMouseOver" Value="True">
-										<Setter Property="Background" Value="Blue"/>
+										<Setter Property="Background" Value="#0f8dff"/>
 									</Trigger>
 								</Style.Triggers>
 							</Style>
@@ -716,7 +724,7 @@
 						</Button.Content>
 						<Button.Style>
 							<Style TargetType="{x:Type Button}">
-								<Setter Property="Background" Value="DarkRed"/>
+								<Setter Property="Background" Value="#f94144"/>
 								<Setter Property="Template">
 									<Setter.Value>
 										<ControlTemplate TargetType="{x:Type Button}">
@@ -728,7 +736,7 @@
 								</Setter>
 								<Style.Triggers>
 									<Trigger Property="IsMouseOver" Value="True">
-										<Setter Property="Background" Value="Red"/>
+										<Setter Property="Background" Value="#ff0e0e"/>
 									</Trigger>
 								</Style.Triggers>
 							</Style>
@@ -770,7 +778,7 @@
 						</Button.Content>
 						<Button.Style>
 							<Style TargetType="{x:Type Button}">
-								<Setter Property="Background" Value="DarkRed"/>
+								<Setter Property="Background" Value="#f94144"/>
 								<Setter Property="Template">
 									<Setter.Value>
 										<ControlTemplate TargetType="{x:Type Button}">
@@ -782,7 +790,7 @@
 								</Setter>
 								<Style.Triggers>
 									<Trigger Property="IsMouseOver" Value="True">
-										<Setter Property="Background" Value="Red"/>
+										<Setter Property="Background" Value="#ff0e0e"/>
 									</Trigger>
 								</Style.Triggers>
 							</Style>
@@ -824,7 +832,7 @@
 						</Button.Content>
 						<Button.Style>
 							<Style TargetType="{x:Type Button}">
-								<Setter Property="Background" Value="DarkRed"/>
+								<Setter Property="Background" Value="#f94144"/>
 								<Setter Property="Template">
 									<Setter.Value>
 										<ControlTemplate TargetType="{x:Type Button}">
@@ -836,7 +844,7 @@
 								</Setter>
 								<Style.Triggers>
 									<Trigger Property="IsMouseOver" Value="True">
-										<Setter Property="Background" Value="Red"/>
+										<Setter Property="Background" Value="#ff0e0e"/>
 									</Trigger>
 								</Style.Triggers>
 							</Style>
@@ -878,7 +886,7 @@
 						</Button.Content>
 						<Button.Style>
 							<Style TargetType="{x:Type Button}">
-								<Setter Property="Background" Value="DarkRed"/>
+								<Setter Property="Background" Value="#f94144"/>
 								<Setter Property="Template">
 									<Setter.Value>
 										<ControlTemplate TargetType="{x:Type Button}">
@@ -890,7 +898,7 @@
 								</Setter>
 								<Style.Triggers>
 									<Trigger Property="IsMouseOver" Value="True">
-										<Setter Property="Background" Value="Red"/>
+										<Setter Property="Background" Value="#ff0e0e"/>
 									</Trigger>
 								</Style.Triggers>
 							</Style>

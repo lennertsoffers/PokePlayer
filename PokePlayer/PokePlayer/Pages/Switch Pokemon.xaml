@@ -144,7 +144,7 @@
 						<DataTemplate>
 							<Grid>
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="80px"></ColumnDefinition>
+									<ColumnDefinition Width="80"></ColumnDefinition>
 									<ColumnDefinition Width="*"></ColumnDefinition>
 								</Grid.ColumnDefinitions>
 
@@ -222,7 +222,7 @@
 			</Grid.ColumnDefinitions>
 
 
-			<StackPanel  Grid.Column="1" Grid.Row="1" Margin="20, 45, 20, 30">
+			<StackPanel  Grid.Column="1" Grid.Row="1" Margin="0, 10, 0, 30">
 				<ItemsControl x:Name="all_pokemon_list" MinWidth="320">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
