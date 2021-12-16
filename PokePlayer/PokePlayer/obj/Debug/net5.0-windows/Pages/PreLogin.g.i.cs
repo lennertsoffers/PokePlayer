@@ -77,7 +77,7 @@ namespace PokePlayer.Pages {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/PokePlayer;component/pages/prelogin.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/PokePlayer;V1.0.0.0;component/pages/prelogin.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Pages\PreLogin.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

@@ -77,7 +77,7 @@ namespace PokePlayer {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/PokePlayer;component/pokeplayerapplication.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/PokePlayer;V1.0.0.0;component/pokeplayerapplication.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\PokePlayerApplication.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

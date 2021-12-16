@@ -30,30 +30,14 @@ namespace PokePlayer.Pages {
 			InitializeComponent();
 			this.Username = username;
 			this.Password = password;
-			bulbasaur.Content = new PokemonConverter(Pokemon.GetPokemon(1));
-			charmander.Content = new PokemonConverter(Pokemon.GetPokemon(2));
-			squirtle.Content = new PokemonConverter(Pokemon.GetPokemon(3));
+			bulbasaur.Content = new PokemonConverter(new Pokemon(1, 5));
+			charmander.Content = new PokemonConverter(new Pokemon(4, 5));
+			squirtle.Content = new PokemonConverter(new Pokemon(7, 5));
 		}
 
 		public void SelectStarter(object sender, RoutedEventArgs e) {
 			Pokemon pokemon = Pokemon.GetPokemon(((PokemonConverter) ((Button) sender).Tag).Id);
 			Trainer trainer = new Trainer(this.Username, this.Password, pokemon);
-
-			// Random r = new Random();
-			// trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
-			// trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
-			// trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
-			// trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
-			// trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
-			// trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
-			// trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
-			// trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
-			// trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
-			// trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
-			// trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
-			// trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
-			// trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
-			// trainer.AddPokemon(new Pokemon(r.Next(1, 700), 30));
 
 			PokePlayerApplication.MainApplication.navBar.Content = new Navbar();
 			PokePlayerApplication.MainApplication.mainContent.Content = new View_Party(trainer);

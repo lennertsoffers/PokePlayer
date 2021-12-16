@@ -40,9 +40,9 @@ namespace PokePlayer.Pages {
 		async public void StartBattle() {
 			PokePlayerApplication.MainApplication.navBar.Visibility = Visibility.Hidden;
 			this.FirstPokemon = Trainer.CarryPokemonList[0];
-			
-			// this.WildPokemon = new Pokemon(random.Next(1, 700), random.Next(FirstPokemon.Level - 5, FirstPokemon.Level + 6));
-			this.WildPokemon = new Pokemon(493, 100);
+			int minLevel = FirstPokemon.Level - 5 < 1 ? 1 : FirstPokemon.Level - 5;
+			int maxLevel = FirstPokemon.Level + 5 > 100 ? 100 : FirstPokemon.Level + 5;
+			this.WildPokemon = new Pokemon(random.Next(1, 700), random.Next(minLevel, maxLevel));
 
 			wildPokemon.Content = new PokemonConverter(this.WildPokemon);
 			trainerPokemon.Content = new PokemonConverter(this.FirstPokemon);
