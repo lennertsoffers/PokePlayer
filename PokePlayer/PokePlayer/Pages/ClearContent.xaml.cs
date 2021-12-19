@@ -13,10 +13,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+/// <summary>
+/// A page to make the content of the fullscreen empty so the navigation bar and main content are visible
+/// </summary>
+
 namespace PokePlayer.Pages {
-	/// <summary>
-	/// Interaction logic for ClearContent.xaml
-	/// </summary>
+
 	public partial class ClearContent : Page {
 		public ClearContent() {
 			InitializeComponent();

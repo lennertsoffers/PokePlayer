@@ -10,15 +10,24 @@ using PokePlayer.DAL;
 using PokePlayer_Library.Models.Pokemon;
 using Type = PokePlayer_Library.Models.Pokemon.Type;
 
+/// <summary>
+/// Class model for a pokemon repository
+/// Inherits from SqlLiteBase
+/// </summary>
+
 namespace Pokeplayer_Library.DAL {
 	class PokemonRepository : SqlLiteBase {
 		public PokemonRepository() {
+			// Database is created when it doensn't exist
 			if (!DatabaseExists()) {
 				CreateDatabase();
 			}
 		}
 
+		// Inserts a pokemon object in the database
 		public void InsertPokemon(Pokemon pokemon) {
+			// It isn't possible to just let Dapper handle the conversion of a move object to a database field
+			// Some attributes must be serialized first
 			var dictionary = new Dictionary<string, object> {
 				{ "@1", pokemon.Id },
 				{ "@2", pokemon.PokemonId },
@@ -93,6 +102,8 @@ namespace Pokeplayer_Library.DAL {
 			}
 		}
 
+		// Updates the parameters from a pokemon in the database
+		// Only the parameters that can be updated are updated
 		public void UpdatePokemon(Pokemon pokemon) {
 			var dictionary = new Dictionary<string, object> {
 				{"@PId", pokemon.Id},
@@ -133,32 +144,57 @@ namespace Pokeplayer_Library.DAL {
 			}
 		}
 
+		// Creates a new pokemon object from the database
 		public Pokemon GetPokemon(int id) {
+			// Sql strings that must be executed
+			string sql = "SELECT Id, PokemonId, Level, BaseExperience, TotalExperience, NextLevelExperience, Hp, NickName, SpriteFront, SpriteBack, Shiny " +
+			             "FROM Pokemon WHERE Id = @Id";
+			string getInBattleStats = "SELECT InBattleStats FROM Pokemon WHERE Id = @Id";
+			string getNonvolatilestatus = "SELECT NonVolatileStatus FROM Pokemon WHERE Id = @Id";
+			string getVolatileStatus = "SELECT VolatileStatus FROM Pokemon WHERE Id = @Id";
+			string getPossiblemoves = "SELECT PossibleMoves FROM Pokemon WHERE Id = @Id";
+			string getMovePpMapping = "SELECT MovePpMapping FROM Pokemon WHERE Id = @Id";
+			string getMoveIds = "SELECT Move1Id, Move2Id, Move3Id, Move4Id FROM Pokemon WHERE Id = @Id";
+			string getStats = "SELECT StatsHpId, StatsAttackId, StatsDefenseId, StatsSpAttackId, StatsSpDefenseId, StatsSpeedId " +
+			                  "FROM Pokemon WHERE Id = @Id";
+			string getSpecieId = "SELECT SpecieId FROM Pokemon WHERE Id = @Id";
+			var dictionary = new Dictionary<string, object> {
+				{ "@Id", id }
+			};
+			var parameters = new DynamicParameters(dictionary);
+
 			using (var connection = DbConnectionFactory()) {
 				connection.Open();
-				string sql = "SELECT Id, PokemonId, Level, BaseExperience, TotalExperience, NextLevelExperience, Hp, NickName, SpriteFront, SpriteBack, Shiny " +
-				             "FROM Pokemon WHERE Id = @Id";
-				string getInBattleStats = "SELECT InBattleStats FROM Pokemon WHERE Id = @Id";
-				string getNonvolatilestatus = "SELECT NonVolatileStatus FROM Pokemon WHERE Id = @Id";
-				string getVolatileStatus = "SELECT VolatileStatus FROM Pokemon WHERE Id = @Id";
-				string getPossiblemoves = "SELECT PossibleMoves FROM Pokemon WHERE Id = @Id";
-				string getMovePpMapping = "SELECT MovePpMapping FROM Pokemon WHERE Id = @Id";
-				string getMoveIds = "SELECT Move1Id, Move2Id, Move3Id, Move4Id FROM Pokemon WHERE Id = @Id";
-				string getStats = "SELECT StatsHpId, StatsAttackId, StatsDefenseId, StatsSpAttackId, StatsSpDefenseId, StatsSpeedId " +
-				                          "FROM Pokemon WHERE Id = @Id";
-				string getSpecieId = "SELECT SpecieId FROM Pokemon WHERE Id = @Id";
-				var dictionary = new Dictionary<string, object> {
-					{ "@Id", id }
-				};
-				var parameters = new DynamicParameters(dictionary);
+
+				// Gets the basic fields from the pokemon that don't need to be deserialized
+				// Dapper automatically creates a new pokemon object from it
 				Pokemon pokemon = connection.QuerySingle<Pokemon>(sql, parameters);
 
+				// Gets the in battle stats
 				pokemon.InBattleStats = JsonConvert.DeserializeObject<Dictionary<string, int>>(connection.QuerySingle<string>(getInBattleStats, parameters));
+
+				// Gets the non volatile status
 				pokemon.NonVolatileStatus = JsonConvert.DeserializeObject<Dictionary<string, int>>(connection.QuerySingle<string>(getNonvolatilestatus, parameters));
+				
+				// Gets the volatile status
 				pokemon.VolatileStatus = JsonConvert.DeserializeObject<Dictionary<string, int>>(connection.QuerySingle<string>(getVolatileStatus, parameters));
+
+				// Gets the possible moves
 				pokemon.PossibleMoves = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(connection.QuerySingle<string>(getPossiblemoves, parameters));
+
+				// Gets the move-pp mapping
 				pokemon.MovePpMapping = JsonConvert.DeserializeObject<Dictionary<int, int>>(connection.QuerySingle<string>(getMovePpMapping, parameters));
 
+				// Get the move object with the GetMoveById method with the id stored in the database
+				pokemon.Specie = Specie.GetSpecie(connection.QuerySingle<int>(getSpecieId, parameters));
+
+				// Creates the type list with the GetTypeById method with the id stored in the database
+				pokemon.TypeList = new List<Type>();
+				foreach (var typeId in connection.Query<int>("SELECT TypeId FROM PokemonType WHERE PokemonId = @Id", parameters)) {
+					pokemon.TypeList.Add(Type.GetTypeById(typeId));
+				}
+
+				// Gets the move id's from the database and creates a move object with the GetMoveById method
 				var moveResult = connection.Query(getMoveIds, parameters).Single();
 				Dictionary<int, Move> moves = new Dictionary<int, Move>();
 				if ((int) moveResult.Move1Id != -1) {
@@ -173,9 +209,9 @@ namespace Pokeplayer_Library.DAL {
 				if ((int) moveResult.Move4Id != -1) {
 					moves.Add(4, Move.GetMoveById((int) moveResult.Move4Id));
 				}
-
 				pokemon.Moves = moves;
 
+				// Gets the stat id's from the database and creates a stat object with the GetStat method
 				var statsResult = connection.Query(getStats, parameters).Single();
 				Dictionary<string, Stat> stats = new Dictionary<string, Stat> {
 					{"hp", Stat.GetStat((int) statsResult.StatsHpId)},
@@ -187,17 +223,11 @@ namespace Pokeplayer_Library.DAL {
 				};
 				pokemon.Stats = stats;
 
-				pokemon.Specie = Specie.GetSpecie(connection.QuerySingle<int>(getSpecieId, parameters));
-
-				pokemon.TypeList = new List<Type>();
-				foreach (var typeId in connection.Query<int>("SELECT TypeId FROM PokemonType WHERE PokemonId = @Id", parameters)) {
-					pokemon.TypeList.Add(Type.GetTypeById(typeId));
-				}
-
 				return pokemon;
 			}
 		}
 
+		// Returns the amount of pokemon stored in the database
 		public int GetAmountOfPokemon() {
 			string sql = "SELECT Id FROM Pokemon";
 			using (var connection = DbConnectionFactory()) {

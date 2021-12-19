@@ -49,7 +49,6 @@ C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\Pages\NewPlayer.g.cs
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\Pages\PreLogin.g.cs
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\Pages\Switch Pokemon.g.cs
-C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\Pages\TestDb.g.cs
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\Pages\View Party.g.cs
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\PokePlayerApplication.g.cs
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\bin\Debug\net5.0-windows\Caliburn.Micro.Platform.Core.dll
@@ -107,7 +106,6 @@ C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\Pages\NewPlayer.baml
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\Pages\PreLogin.baml
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\Pages\Switch Pokemon.baml
-C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\Pages\TestDb.baml
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\Pages\View Party.baml
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\PokePlayerApplication.baml
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\obj\Debug\net5.0-windows\Pages\ClearContent.g.cs

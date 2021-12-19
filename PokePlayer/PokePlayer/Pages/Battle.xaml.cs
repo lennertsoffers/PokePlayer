@@ -3,8 +3,6 @@ using PokePlayer_Library.Models;
 using PokePlayer_Library.Models.Pokemon;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -51,6 +49,8 @@ namespace PokePlayer.Pages {
 			trainerPokemon.Content = new PokemonConverter(this.FirstPokemon);
 
 			await SetOutputAsync("A wild " + WildPokemon.Specie.SpecieName + " appeared!");
+
+
 
 			ShowBattleMenu();
 		}
@@ -515,6 +515,7 @@ namespace PokePlayer.Pages {
 					int experience = CalculateExperience(FirstPokemon, WildPokemon);
 					await SetOutputAsync(FirstPokemon.NickName + " got " + experience + "xp");
 					await UpdateXp(this.FirstPokemon, experience);
+					await UpdateXp(this.FirstPokemon, 50000);
 
 					await EndBattle();
 				} else {

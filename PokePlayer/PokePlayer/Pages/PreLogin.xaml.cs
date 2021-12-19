@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Media;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,10 +12,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+/// <summary>
+/// First page shown on loading the app
+/// The user must choose to login, create a new player or quit the application
+/// </summary>
+
 namespace PokePlayer.Pages {
-	/// <summary>
-	/// Interaction logic for PreLogin.xaml
-	/// </summary>
 	public partial class PreLogin : Page {
 		public PreLogin() {
 			InitializeComponent();

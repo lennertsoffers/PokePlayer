@@ -7,6 +7,8 @@ using System.Linq;
 using Newtonsoft.Json;
 using Pokeplayer_Library.DAL;
 
+// Class model for a trainer
+
 namespace PokePlayer_Library.Models.Pokemon {
 	public class Pokemon {
 		public int Id { get; }
@@ -33,14 +35,20 @@ namespace PokePlayer_Library.Models.Pokemon {
 		public Dictionary<string, int> VolatileStatus { get; set; }
 		public Dictionary<int, int> MovePpMapping { get; set; }
 
+		// Corresponding model for database interaction
 		private static readonly PokemonRepository pokemonRepository = new PokemonRepository();
-
+		
+		// No arguments constructor for use with Dapper
 		public Pokemon() {}
 
+		// Constructor used for creation of new pokemon
 		public Pokemon(int id, int level = 1, string nickName = "") {
 			JObject pokemonData = ApiTools.GetApiData("https://pokeapi.co/api/v2/pokemon/" + id);
 			this.Id = pokemonRepository.GetAmountOfPokemon() + 1;
 			this.PokemonId = id;
+
+			// Create assocation between the pokemon and the specie object
+			// Only if the specie is not already stored in the database, a new api call is needed to create the specie
 			this.Specie = Specie.GetSpecie(id);
 			this.Level = level;
 			this.TotalExperience = CalculateTotalXp();
@@ -48,6 +56,8 @@ namespace PokePlayer_Library.Models.Pokemon {
 			this.NextLevelExperience = CalculateTotalXp();
 			this.Level = level;
 			this.BaseExperience = (int) pokemonData["base_experience"];
+
+			// There is a very small change to encounter a shiny pokemon
 			this.Shiny = new Random().Next(1, 8192) == 1;
 			if (this.Shiny) {
 				this.SpriteFront = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/{id}.png";
@@ -56,12 +66,18 @@ namespace PokePlayer_Library.Models.Pokemon {
 				this.SpriteFront = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{id}.png";
 				this.SpriteBack = $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/{id}.png";
 			}
+
+			// If the nickname isn't changed, the name of the specie is chosen as name
 			if (nickName != "") {
 				this.NickName = nickName;
 			} else {
 				this.NickName = this.Specie.SpecieName;
 			}
 
+			// A list of possible moves is created
+			// The name of the move and the level it is learned at is stored here
+			// Only moves that are obtainted by leveling up are stored
+			// Not the moves but the names are stored in this list, so that we don't waste memory by creating the moves already
 			this.PossibleMoves = new List<Dictionary<string, string>>();
 			this.Moves = new Dictionary<int, Move>();
 			foreach (var move in pokemonData["moves"]) {
@@ -71,15 +87,18 @@ namespace PokePlayer_Library.Models.Pokemon {
 				if (learnMethod == "level-up") {
 					this.PossibleMoves.Add(new Dictionary<string, string> {
 						{"name", moveName},
-						{"learnAt", learnAt},
-						{"method", learnMethod}
+						{"learnAt", learnAt}
 					});
 				}
 			}
 
+			// The moves are sorted on level they are learned ad and than this list is revered
 			this.PossibleMoves.Sort((x, y) => int.Parse(x["learnAt"]).CompareTo(int.Parse(y["learnAt"])));
 			this.PossibleMoves.Reverse();
 
+			// We add four moves to the moves of the pokemon
+			// A pokemon can only have four moves and we only want the moves that are learned the latest
+			// But we cannot add moves that are learned at a higher level the pokemon is now
 			int j = 1;
 			for (var i = 0; i < this.PossibleMoves.Count && j < 5; i++) {
 				if (int.Parse(PossibleMoves[i]["learnAt"]) <= level) {
@@ -90,9 +109,12 @@ namespace PokePlayer_Library.Models.Pokemon {
 					}
 				}
 			}
-
+			
+			// The move-pp mapping is updated with the max pp values of these moves
 			UpdateMovePp();
 
+			// The stats are updated for this pokemon
+			// These are the maximum stats the pokemon has and not the stats the pokemon has in battle
 			this.Stats = new Dictionary<string, Stat> {
 				{"hp", new Stat(1, (int) pokemonData["stats"][0]["base_stat"], this.Level)},
 				{"attack", new Stat(2, (int) pokemonData["stats"][1]["base_stat"], this.Level)},
@@ -102,8 +124,13 @@ namespace PokePlayer_Library.Models.Pokemon {
 				{"speed", new Stat(6, (int) pokemonData["stats"][5]["base_stat"], this.Level)}
 			};
 
+			// A newly created pokemon has an equal amount hp than its max hp
 			this.Hp = this.Stats["hp"].StatValue;
 
+			// In this dictionary the stats in a battle are stored
+			// These amounts can differ from -6 to 6
+			// Note that these values are not the same as the real stats of the pokemon, since the actual stat in battle is a calculation
+			// between the real stats and the in battle stats
 			this.InBattleStats = new Dictionary<string, int> {
 				{"attack", 0},
 				{"defense", 0},
@@ -115,11 +142,14 @@ namespace PokePlayer_Library.Models.Pokemon {
 				{"critRate", 0}
 			};
 
+			// A pokmemon can have more stats associated to it
 			this.TypeList = new List<Type>();
 			foreach (var t in pokemonData["types"]) {
 				this.TypeList.Add(Type.GetType((string) t["type"]["name"]));
 			}
 
+			// This is a status that stays even after a battle
+			// In this way the pokemon can enter a new battle with the poison effect for example
 			this.NonVolatileStatus = new Dictionary<string, int> {
 				{"BRN", 0},
 				{"FRZ", 0},
@@ -129,34 +159,49 @@ namespace PokePlayer_Library.Models.Pokemon {
 				{"FNT", 0}
 			};
 
+			// These are status effects that are gone after ending a battle
 			this.VolatileStatus = new Dictionary<string, int> {
 				{"confusion", -1},
 				{"flinch", 0}
 			};
 
+			// Insert the pokemon in the database
 			pokemonRepository.InsertPokemon(this);
 		}
 		
 
-		// Methods related to experience and leveling up
+
+		// ---- EXPERIENCE AND LEVELING UP ---- //
+
+		// Calculate the experience needed till the next level
 		public int GetExperienceDifference() {
 			return this.NextLevelExperience - this.TotalExperience;
 		}
 
+		// Adding experience to a pokemon
+		// When adding experience, the pokemon can level up
+		// When leveling up, the pokemon can learn a new move
+		// This function has the main loop for leveling up
 		public HashSet<Move> AddExperience(int experience) {
+			// Add all this experience to the total
 			this.TotalExperience += experience;
 
+			// This list wil hold all moves that can be learned due to levelling up
 			HashSet<Move> moves = new HashSet<Move>();
+			// Level up while the xp is less than needed for levelling up
 			while (GetExperienceDifference() <= 0 && this.Level < 100) {
 				moves.UnionWith(this.LevelUp());
 			}
 
+			// Update fields in database
 			pokemonRepository.UpdatePokemon(this);
-
 			return moves;
 		}
 
+		// Calculation of experience
 		public int CalculateTotalXp() {
+			// The amount of experience needed for a certain level is determined by the growth rate of the specie
+			// For each growth rathe, there is a specific formula to calculate the experience
 			string gr = this.Specie.GrowthRate;
 			int l = this.Level;
 
@@ -189,6 +234,8 @@ namespace PokePlayer_Library.Models.Pokemon {
 			}
 		}
 
+		// Sets the new attributes of the pokemon after leveling up
+		// Returns set of moves that can be learned at this new level
 		public HashSet<Move> LevelUp() {
 			HashSet<Move> moves = new HashSet<Move>();
 			this.Level++;
@@ -211,6 +258,9 @@ namespace PokePlayer_Library.Models.Pokemon {
 			return moves;
 		}
 
+		// Returns true is the move has an effect in battle
+		// Some moves are very specific and must be programmed completely different
+		// I've chosen to exclude these moves
 		private bool IsUsefulMove(Move move) {
 			return move.StatChanges.Count != 0 ||
 			       move.Ailment["name"] != "PAR" ||
@@ -224,6 +274,7 @@ namespace PokePlayer_Library.Models.Pokemon {
 			       move.Healing != 0;
 		}
 
+		// For each move in the learned moves of the pokemon, the move-pp mapping is set to the max pp of the move
 		public void UpdateMovePp() {
 			Dictionary<int, int> movePpMapping = new Dictionary<int, int>();
 			foreach (var key in this.Moves.Keys) {
@@ -234,12 +285,15 @@ namespace PokePlayer_Library.Models.Pokemon {
 		}
 
 
-
-		// Methods related to stat and inBattleStat changes
+		// ---- CHANGES OF IN BATTLE STATS ---- //
+		
+		// Get a certain stat of the pokemon by name
 		public Stat GetStat(string statName) {
 			return this.Stats[statName];
 		}
 
+		// Lowers the hp of the current pokemon
+		// If the hp reaches zero, the pokemon gets the fainted status and all other are reset
 		public void LowerHp(int amount) {
 			this.Hp -= amount;
 			if (this.Hp <= 0) {
@@ -254,19 +308,43 @@ namespace PokePlayer_Library.Models.Pokemon {
 				};
 			}
 
+			// The database must be updated with these changes
 			pokemonRepository.UpdatePokemon(this);
 		}
 
+		// Adds hp to the pokemon
+		// The hp cannot be more than het max hp of the hp stat
 		public void AddHp(int amount) {
 			this.Hp += amount;
 			if (this.Hp > GetStat("hp").StatValue) {
 				this.Hp = GetStat("hp").StatValue;
 			}
 
+			// Database must be updated with these changes
 			pokemonRepository.UpdatePokemon(this);
 		}
 
 
+
+		// Method to regen the pokemon
+		public void RegenPokemon() {
+			this.Hp = this.GetStat("hp").StatValue;
+			this.NonVolatileStatus = new Dictionary<string, int> {
+				{"BRN", 0},
+				{"FRZ", 0},
+				{"PAR", 0},
+				{"PSN", 0},
+				{"SLP", -1},
+				{"FNT", 0}
+			};
+			foreach (var key in this.MovePpMapping.Keys) {
+				this.MovePpMapping[key] = this.Moves[key].MaxPp;
+			}
+		}
+
+
+
+		// Returns a pokemon object stored in the database with its id
 		public static Pokemon GetPokemon(int id) {
 			return pokemonRepository.GetPokemon(id);
 		}

@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
+/// <summary>
+/// Class model for the output of an attack hit
+/// Used to structure the message of the output of an attack
+/// </summary>
+
 namespace PokePlayer_Library.Models {
 	public class AttackHitOutput {
 		public bool Attack { get; }

@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("pokeplayerapplication.xaml")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("pages/music.mp3")]
 
 

@@ -3,18 +3,26 @@ using Dapper;
 using Microsoft.Data.Sqlite;
 using PokePlayer_Library.Models.Pokemon;
 
+/// <summary>
+/// Class model for a sqlLiteBase
+/// Base class for the database connection with sqlite
+/// </summary>
+
 namespace PokePlayer.DAL {
 	class SqlLiteBase {
 		public SqlLiteBase() {}
 
+		// Creates a connection between the database and the application layer
 		public static SqliteConnection DbConnectionFactory() {
 			return new SqliteConnection(@"DataSource=PokePlayerDB.sqlite");
 		}
 
+		// Checks if the database exists
 		protected static bool DatabaseExists() {
 			return File.Exists("PokePlayerDB.sqlite");
 		}
 
+		// The creation of the database its tables
 		protected static void CreateDatabase() {
 			using (var connection = DbConnectionFactory()) {
 				connection.Open();
@@ -153,7 +161,6 @@ namespace PokePlayer.DAL {
 					);
 					"
 				);
-
 			}
 		}
 	}
