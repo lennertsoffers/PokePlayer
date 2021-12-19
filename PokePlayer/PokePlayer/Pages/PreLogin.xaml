@@ -1,0 +1,320 @@
+﻿<Page x:Class="PokePlayer.Pages.PreLogin"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PokePlayer.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+	  FontSize="25"
+      Title="PreLogin">
+
+	<Grid Background="#f2e8cf">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="30"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="80"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="80"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="80"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+
+		</Grid.RowDefinitions>
+
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+			<ColumnDefinition Width="300"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+
+
+		<TextBlock TextAlignment="Center"
+	               FontSize="40"
+	               Grid.Row="1"
+	               Grid.ColumnSpan="3">
+	               Welcome to PokePlayer
+		</TextBlock>
+
+		<Button BorderBrush="{x:Null}"
+						        Foreground="{x:Null}"
+						        RenderTransformOrigin="0.5, 0.5"
+								Grid.Row="3"
+								Grid.Column="1"
+						        Click="Login">
+			<Button.Content>
+				<TextBlock Foreground="White" FontSize="23" FontWeight="Bold" Text="Login"/>
+			</Button.Content>
+			<Button.Style>
+				<Style TargetType="{x:Type Button}">
+					<Setter Property="Background" Value="#386641"/>
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="{x:Type Button}">
+								<Border Background="{TemplateBinding Background}">
+									<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+								</Border>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+					<Style.Triggers>
+						<Trigger Property="IsMouseOver" Value="True">
+							<Setter Property="Background" Value="#6a994e"/>
+						</Trigger>
+					</Style.Triggers>
+				</Style>
+			</Button.Style>
+			<Button.RenderTransform>
+				<ScaleTransform x:Name="HoverScale" ScaleX="1" ScaleY="1"/>
+			</Button.RenderTransform>
+			<Button.Triggers>
+				<EventTrigger RoutedEvent="Button.MouseEnter">
+					<BeginStoryboard>
+						<Storyboard>
+							<DoubleAnimation
+													Storyboard.TargetName="HoverScale"
+													Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
+													To="1.1"
+													Duration="0:0:0.2">
+								<DoubleAnimation.EasingFunction>
+									<CircleEase  EasingMode="EaseInOut" 
+														/>
+								</DoubleAnimation.EasingFunction>
+							</DoubleAnimation>
+							<DoubleAnimation
+													Storyboard.TargetName="HoverScale"
+													Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
+													To="1.1"
+													Duration="0:0:0.2">
+								<DoubleAnimation.EasingFunction>
+									<CircleEase  EasingMode="EaseInOut" 
+														/>
+								</DoubleAnimation.EasingFunction>
+							</DoubleAnimation>
+						</Storyboard>
+					</BeginStoryboard>
+				</EventTrigger>
+				<EventTrigger RoutedEvent="Button.MouseLeave">
+					<BeginStoryboard>
+						<Storyboard>
+							<DoubleAnimation
+												Storyboard.TargetName="HoverScale"
+												Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
+												To="1"
+												Duration="0:0:0.2">
+								<DoubleAnimation.EasingFunction>
+									<CircleEase  EasingMode="EaseInOut" 
+													/>
+								</DoubleAnimation.EasingFunction>
+							</DoubleAnimation>
+							<DoubleAnimation
+													Storyboard.TargetName="HoverScale"
+													Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
+													To="1"
+													Duration="0:0:0.2">
+								<DoubleAnimation.EasingFunction>
+									<CircleEase EasingMode="EaseInOut" 
+														/>
+								</DoubleAnimation.EasingFunction>
+							</DoubleAnimation>
+						</Storyboard>
+					</BeginStoryboard>
+				</EventTrigger>
+			</Button.Triggers>
+			<Button.Resources>
+				<Style TargetType="{x:Type Border}">
+					<Setter Property="CornerRadius" Value="15"/>
+					<Setter Property="BorderBrush" Value="#a7c957"/>
+				</Style>
+			</Button.Resources>
+		</Button>
+
+		<Button BorderBrush="{x:Null}"
+						        Foreground="{x:Null}"
+						        RenderTransformOrigin="0.5, 0.5"
+								Grid.Row="5"
+								Grid.Column="1"
+						        Click="NewPlayer">
+			<Button.Content>
+				<TextBlock Foreground="White" FontSize="23" FontWeight="Bold" Text="New Player"/>
+			</Button.Content>
+			<Button.Style>
+				<Style TargetType="{x:Type Button}">
+					<Setter Property="Background" Value="#386641"/>
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="{x:Type Button}">
+								<Border Background="{TemplateBinding Background}">
+									<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+								</Border>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+					<Style.Triggers>
+						<Trigger Property="IsMouseOver" Value="True">
+							<Setter Property="Background" Value="#6a994e"/>
+						</Trigger>
+					</Style.Triggers>
+				</Style>
+			</Button.Style>
+			<Button.RenderTransform>
+				<ScaleTransform x:Name="HoverScale2" ScaleX="1" ScaleY="1"/>
+			</Button.RenderTransform>
+			<Button.Triggers>
+				<EventTrigger RoutedEvent="Button.MouseEnter">
+					<BeginStoryboard>
+						<Storyboard>
+							<DoubleAnimation
+													Storyboard.TargetName="HoverScale2"
+													Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
+													To="1.1"
+													Duration="0:0:0.2">
+								<DoubleAnimation.EasingFunction>
+									<CircleEase  EasingMode="EaseInOut" 
+														/>
+								</DoubleAnimation.EasingFunction>
+							</DoubleAnimation>
+							<DoubleAnimation
+													Storyboard.TargetName="HoverScale2"
+													Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
+													To="1.1"
+													Duration="0:0:0.2">
+								<DoubleAnimation.EasingFunction>
+									<CircleEase  EasingMode="EaseInOut" 
+														/>
+								</DoubleAnimation.EasingFunction>
+							</DoubleAnimation>
+						</Storyboard>
+					</BeginStoryboard>
+				</EventTrigger>
+				<EventTrigger RoutedEvent="Button.MouseLeave">
+					<BeginStoryboard>
+						<Storyboard>
+							<DoubleAnimation
+												Storyboard.TargetName="HoverScale2"
+												Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
+												To="1"
+												Duration="0:0:0.2">
+								<DoubleAnimation.EasingFunction>
+									<CircleEase  EasingMode="EaseInOut" 
+													/>
+								</DoubleAnimation.EasingFunction>
+							</DoubleAnimation>
+							<DoubleAnimation
+													Storyboard.TargetName="HoverScale2"
+													Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
+													To="1"
+													Duration="0:0:0.2">
+								<DoubleAnimation.EasingFunction>
+									<CircleEase EasingMode="EaseInOut" 
+														/>
+								</DoubleAnimation.EasingFunction>
+							</DoubleAnimation>
+						</Storyboard>
+					</BeginStoryboard>
+				</EventTrigger>
+			</Button.Triggers>
+			<Button.Resources>
+				<Style TargetType="{x:Type Border}">
+					<Setter Property="CornerRadius" Value="15"/>
+					<Setter Property="BorderBrush" Value="#a7c957"/>
+				</Style>
+			</Button.Resources>
+		</Button>
+
+		<Button BorderBrush="{x:Null}"
+						        Foreground="{x:Null}"
+						        RenderTransformOrigin="0.5, 0.5"
+								Grid.Row="7"
+								Grid.Column="1"
+						        Click="Quit">
+			<Button.Content>
+				<TextBlock Foreground="White" FontSize="23" FontWeight="Bold" Text="Quit"/>
+			</Button.Content>
+			<Button.Style>
+				<Style TargetType="{x:Type Button}">
+					<Setter Property="Background" Value="#386641"/>
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="{x:Type Button}">
+								<Border Background="{TemplateBinding Background}">
+									<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+								</Border>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+					<Style.Triggers>
+						<Trigger Property="IsMouseOver" Value="True">
+							<Setter Property="Background" Value="#6a994e"/>
+						</Trigger>
+					</Style.Triggers>
+				</Style>
+			</Button.Style>
+			<Button.RenderTransform>
+				<ScaleTransform x:Name="HoverScale3" ScaleX="1" ScaleY="1"/>
+			</Button.RenderTransform>
+			<Button.Triggers>
+				<EventTrigger RoutedEvent="Button.MouseEnter">
+					<BeginStoryboard>
+						<Storyboard>
+							<DoubleAnimation
+													Storyboard.TargetName="HoverScale3"
+													Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
+													To="1.1"
+													Duration="0:0:0.2">
+								<DoubleAnimation.EasingFunction>
+									<CircleEase  EasingMode="EaseInOut" 
+														/>
+								</DoubleAnimation.EasingFunction>
+							</DoubleAnimation>
+							<DoubleAnimation
+													Storyboard.TargetName="HoverScale3"
+													Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
+													To="1.1"
+													Duration="0:0:0.2">
+								<DoubleAnimation.EasingFunction>
+									<CircleEase  EasingMode="EaseInOut" 
+														/>
+								</DoubleAnimation.EasingFunction>
+							</DoubleAnimation>
+						</Storyboard>
+					</BeginStoryboard>
+				</EventTrigger>
+				<EventTrigger RoutedEvent="Button.MouseLeave">
+					<BeginStoryboard>
+						<Storyboard>
+							<DoubleAnimation
+												Storyboard.TargetName="HoverScale3"
+												Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
+												To="1"
+												Duration="0:0:0.2">
+								<DoubleAnimation.EasingFunction>
+									<CircleEase  EasingMode="EaseInOut" 
+													/>
+								</DoubleAnimation.EasingFunction>
+							</DoubleAnimation>
+							<DoubleAnimation
+													Storyboard.TargetName="HoverScale3"
+													Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
+													To="1"
+													Duration="0:0:0.2">
+								<DoubleAnimation.EasingFunction>
+									<CircleEase EasingMode="EaseInOut" 
+														/>
+								</DoubleAnimation.EasingFunction>
+							</DoubleAnimation>
+						</Storyboard>
+					</BeginStoryboard>
+				</EventTrigger>
+			</Button.Triggers>
+			<Button.Resources>
+				<Style TargetType="{x:Type Border}">
+					<Setter Property="CornerRadius" Value="15"/>
+					<Setter Property="BorderBrush" Value="#a7c957"/>
+				</Style>
+			</Button.Resources>
+		</Button>
+
+	</Grid>
+</Page>

@@ -1,0 +1,3 @@
+C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\bin\Release\net5.0-windows\win-x64\publish\PokePlayer.pdb
+C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\bin\Release\net5.0-windows\win-x64\publish\Pokeplayer_Library.pdb
+C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\bin\Release\net5.0-windows\win-x64\publish\PokePlayer.exe

@@ -1,0 +1,497 @@
+﻿	<Page x:Class="PokePlayer.Pages.Switch_Pokemon"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PokePlayer.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="750" d:DesignWidth="1200"
+	  FontSize="16"
+      Title="Switch_Pokemon">
+
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+
+		<Grid Column="0" Background="#386641">
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="30"></RowDefinition>
+				<RowDefinition Height="7*"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="30"></RowDefinition>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="60"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="60"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+
+			<Border Background="#f2e8cf"  Grid.Column="1" Grid.Row="1" Margin="0, 0, 0, 30" CornerRadius="15">
+				<ItemsControl x:Name="party_pokemon_list" MaxWidth="400" MinWidth="320">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<Grid>
+								<Button Width="120"
+							        Height="120"
+							        Margin="30"
+							        BorderBrush="{x:Null}"
+							        Foreground="{x:Null}"
+							        RenderTransformOrigin="0.5, 0.5"
+							        Tag="{Binding}"
+							        Click="SelectPartyPokemon">
+									<Button.Content>
+										<Image Source="{Binding Sprite}" Margin="-20"/>
+									</Button.Content>
+									<Button.Style>
+										<Style TargetType="{x:Type Button}">
+											<Setter Property="Background" Value="#6a994e"/>
+											<Setter Property="Template">
+												<Setter.Value>
+													<ControlTemplate TargetType="{x:Type Button}">
+														<Border Background="{TemplateBinding Background}">
+															<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+														</Border>
+													</ControlTemplate>
+												</Setter.Value>
+											</Setter>
+											<Style.Triggers>
+												<Trigger Property="IsMouseOver" Value="True">
+													<Setter Property="Background" Value="#a7c957"/>
+												</Trigger>
+											</Style.Triggers>
+										</Style>
+									</Button.Style>
+									<Button.RenderTransform>
+										<ScaleTransform x:Name="HoverScale" ScaleX="1" ScaleY="1"/>
+									</Button.RenderTransform>
+									<Button.Triggers>
+										<EventTrigger RoutedEvent="Button.MouseEnter">
+											<BeginStoryboard>
+												<Storyboard>
+													<DoubleAnimation
+													Storyboard.TargetName="HoverScale"
+													Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
+													To="1.2"
+													Duration="0:0:0.2">
+														<DoubleAnimation.EasingFunction>
+															<CircleEase  EasingMode="EaseInOut" 
+														/>
+														</DoubleAnimation.EasingFunction>
+													</DoubleAnimation>
+													<DoubleAnimation
+													Storyboard.TargetName="HoverScale"
+													Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
+													To="1.2"
+													Duration="0:0:0.2">
+														<DoubleAnimation.EasingFunction>
+															<CircleEase  EasingMode="EaseInOut" 
+														/>
+														</DoubleAnimation.EasingFunction>
+													</DoubleAnimation>
+												</Storyboard>
+											</BeginStoryboard>
+										</EventTrigger>
+										<EventTrigger RoutedEvent="Button.MouseLeave">
+											<BeginStoryboard>
+												<Storyboard>
+													<DoubleAnimation
+												Storyboard.TargetName="HoverScale"
+												Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
+												To="1"
+												Duration="0:0:0.2">
+														<DoubleAnimation.EasingFunction>
+															<CircleEase  EasingMode="EaseInOut" 
+													/>
+														</DoubleAnimation.EasingFunction>
+													</DoubleAnimation>
+													<DoubleAnimation
+													Storyboard.TargetName="HoverScale"
+													Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
+													To="1"
+													Duration="0:0:0.2">
+														<DoubleAnimation.EasingFunction>
+															<CircleEase EasingMode="EaseInOut" 
+														/>
+														</DoubleAnimation.EasingFunction>
+													</DoubleAnimation>
+												</Storyboard>
+											</BeginStoryboard>
+										</EventTrigger>
+									</Button.Triggers>
+									<Button.Resources>
+										<Style TargetType="{x:Type Border}">
+											<Setter Property="CornerRadius" Value="150"/>
+											<Setter Property="BorderBrush" Value="#a7c957"/>
+										</Style>
+									</Button.Resources>
+								</Button>
+							</Grid>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<WrapPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+				</ItemsControl>
+			</Border>
+			<StackPanel Grid.Row="2" Grid.Column="1">
+				<ContentControl x:Name="party_pokemon_select">
+					<ContentControl.ContentTemplate>
+						<DataTemplate>
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="80"></ColumnDefinition>
+									<ColumnDefinition Width="*"></ColumnDefinition>
+								</Grid.ColumnDefinitions>
+
+								<Border Grid.ColumnSpan="2" Background="#f2e8cf" CornerRadius="15"/>
+								<Border Background="#6a994e" CornerRadius="50" Margin="10"/>
+								<Image Source="{Binding Sprite}" />
+								<Grid Grid.Column="1" Margin="10, 0, 20, 0">
+
+									<Grid.RowDefinitions>
+										<RowDefinition Height="35"></RowDefinition>
+										<RowDefinition Height="8"></RowDefinition>
+										<RowDefinition Height="35"></RowDefinition>
+									</Grid.RowDefinitions>
+
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*"></ColumnDefinition>
+										<ColumnDefinition Width="*"></ColumnDefinition>
+									</Grid.ColumnDefinitions>
+
+									<StackPanel Grid.Row="1"
+											            Grid.Column="0"
+											            Grid.ColumnSpan="2">
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="{Binding HpPercentage}"></ColumnDefinition>
+												<ColumnDefinition Width="{Binding LostHpPercentage}"></ColumnDefinition>
+											</Grid.ColumnDefinitions>
+
+											<Border CornerRadius="5" Grid.Column="0" Grid.ColumnSpan="2" Margin ="2, 0, 0, 0" Height="8" Background="#6a994e"></Border>
+											<Border CornerRadius="5" Grid.Column="0" Height="8" Background="#a7c957"></Border>
+										</Grid>
+									</StackPanel>
+
+									<TextBlock Grid.Column="0"
+											           Grid.ColumnSpan="2"
+											           VerticalAlignment="Center"
+											           Text="{Binding NickName}"/>
+
+									<StackPanel Orientation="Horizontal"
+											            Grid.Row="2"
+											            Grid.Column="0"
+											            VerticalAlignment="Center">
+										<TextBlock Text="{Binding Hp}"/>
+										<TextBlock Text="/"/>
+										<TextBlock Text="{Binding MaxHp}"/>
+									</StackPanel>
+
+
+									<TextBlock TextAlignment="Right"
+											   VerticalAlignment="Center"
+									           Grid.Row="2"
+									           Grid.Column="1"
+									           Text="{Binding Level, StringFormat=Lv. {0}}"/>
+								</Grid>
+							</Grid>
+						</DataTemplate>
+					</ContentControl.ContentTemplate>
+				</ContentControl>
+			</StackPanel>
+		</Grid>
+
+		<Grid Column="1" Background="#f2e8cf">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="30"></RowDefinition>
+				<RowDefinition Height="6*"></RowDefinition>
+				<RowDefinition Height="0.5*"></RowDefinition>
+				<RowDefinition Height="30"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="30"></RowDefinition>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="60"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="60"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+
+
+			<StackPanel  Grid.Column="1" Grid.Row="1" Margin="0, 10, 0, 30">
+				<ItemsControl x:Name="all_pokemon_list" MinWidth="320">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<Grid>
+								<Button Width="70"
+							        Height="70"
+							        Margin="10"
+							        BorderBrush="{x:Null}"
+							        Foreground="{x:Null}"
+							        RenderTransformOrigin="0.5, 0.5"
+							        Tag="{Binding}"
+							        Click="SelectSwitchPokemon">
+									<Button.Content>
+										<Image Source="{Binding Sprite}" Margin="-10"/>
+									</Button.Content>
+									<Button.Style>
+										<Style TargetType="{x:Type Button}">
+											<Setter Property="Background" Value="Transparent"/>
+											<Setter Property="Template">
+												<Setter.Value>
+													<ControlTemplate TargetType="{x:Type Button}">
+														<Border Background="{TemplateBinding Background}">
+															<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+														</Border>
+													</ControlTemplate>
+												</Setter.Value>
+											</Setter>
+											<Style.Triggers>
+												<Trigger Property="IsMouseOver" Value="True">
+													<Setter Property="Background" Value="Transparent"/>
+												</Trigger>
+											</Style.Triggers>
+										</Style>
+									</Button.Style>
+									<Button.RenderTransform>
+										<ScaleTransform x:Name="HoverScale" ScaleX="1" ScaleY="1"/>
+									</Button.RenderTransform>
+									<Button.Triggers>
+										<EventTrigger RoutedEvent="Button.MouseEnter">
+											<BeginStoryboard>
+												<Storyboard>
+													<DoubleAnimation
+													Storyboard.TargetName="HoverScale"
+													Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
+													To="1.2"
+													Duration="0:0:0.2">
+														<DoubleAnimation.EasingFunction>
+															<CircleEase  EasingMode="EaseInOut" 
+														/>
+														</DoubleAnimation.EasingFunction>
+													</DoubleAnimation>
+													<DoubleAnimation
+													Storyboard.TargetName="HoverScale"
+													Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
+													To="1.2"
+													Duration="0:0:0.2">
+														<DoubleAnimation.EasingFunction>
+															<CircleEase  EasingMode="EaseInOut" 
+														/>
+														</DoubleAnimation.EasingFunction>
+													</DoubleAnimation>
+												</Storyboard>
+											</BeginStoryboard>
+										</EventTrigger>
+										<EventTrigger RoutedEvent="Button.MouseLeave">
+											<BeginStoryboard>
+												<Storyboard>
+													<DoubleAnimation
+												Storyboard.TargetName="HoverScale"
+												Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
+												To="1"
+												Duration="0:0:0.2">
+														<DoubleAnimation.EasingFunction>
+															<CircleEase  EasingMode="EaseInOut" 
+													/>
+														</DoubleAnimation.EasingFunction>
+													</DoubleAnimation>
+													<DoubleAnimation
+													Storyboard.TargetName="HoverScale"
+													Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
+													To="1"
+													Duration="0:0:0.2">
+														<DoubleAnimation.EasingFunction>
+															<CircleEase EasingMode="EaseInOut" 
+														/>
+														</DoubleAnimation.EasingFunction>
+													</DoubleAnimation>
+												</Storyboard>
+											</BeginStoryboard>
+										</EventTrigger>
+									</Button.Triggers>
+									<Button.Resources>
+										<Style TargetType="{x:Type Border}">
+											<Setter Property="CornerRadius" Value="150"/>
+											<Setter Property="BorderBrush" Value="#a7c957"/>
+										</Style>
+									</Button.Resources>
+								</Button>
+							</Grid>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<WrapPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+				</ItemsControl>
+			</StackPanel>
+
+			<Button BorderBrush="{x:Null}"
+						        Foreground="{x:Null}"
+						        RenderTransformOrigin="0.5, 0.5"
+								Height="40"
+								Grid.Row="2"
+								Grid.Column="1"
+						        Click="SwitchPokemon">
+				<Button.Content>
+					<TextBlock Foreground="White" FontSize="23" FontWeight="Bold" Text="Switch Pokemon"/>
+				</Button.Content>
+				<Button.Style>
+					<Style TargetType="{x:Type Button}">
+						<Setter Property="Background" Value="#386641"/>
+						<Setter Property="Template">
+							<Setter.Value>
+								<ControlTemplate TargetType="{x:Type Button}">
+									<Border Background="{TemplateBinding Background}">
+										<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+									</Border>
+								</ControlTemplate>
+							</Setter.Value>
+						</Setter>
+						<Style.Triggers>
+							<Trigger Property="IsMouseOver" Value="True">
+								<Setter Property="Background" Value="#6a994e"/>
+							</Trigger>
+						</Style.Triggers>
+					</Style>
+				</Button.Style>
+				<Button.RenderTransform>
+					<ScaleTransform x:Name="HoverScale" ScaleX="1" ScaleY="1"/>
+				</Button.RenderTransform>
+				<Button.Triggers>
+					<EventTrigger RoutedEvent="Button.MouseEnter">
+						<BeginStoryboard>
+							<Storyboard>
+								<DoubleAnimation
+													Storyboard.TargetName="HoverScale"
+													Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
+													To="1.1"
+													Duration="0:0:0.2">
+									<DoubleAnimation.EasingFunction>
+										<CircleEase  EasingMode="EaseInOut" 
+														/>
+									</DoubleAnimation.EasingFunction>
+								</DoubleAnimation>
+								<DoubleAnimation
+													Storyboard.TargetName="HoverScale"
+													Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
+													To="1.1"
+													Duration="0:0:0.2">
+									<DoubleAnimation.EasingFunction>
+										<CircleEase  EasingMode="EaseInOut" 
+														/>
+									</DoubleAnimation.EasingFunction>
+								</DoubleAnimation>
+							</Storyboard>
+						</BeginStoryboard>
+					</EventTrigger>
+					<EventTrigger RoutedEvent="Button.MouseLeave">
+						<BeginStoryboard>
+							<Storyboard>
+								<DoubleAnimation
+												Storyboard.TargetName="HoverScale"
+												Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
+												To="1"
+												Duration="0:0:0.2">
+									<DoubleAnimation.EasingFunction>
+										<CircleEase  EasingMode="EaseInOut" 
+													/>
+									</DoubleAnimation.EasingFunction>
+								</DoubleAnimation>
+								<DoubleAnimation
+													Storyboard.TargetName="HoverScale"
+													Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
+													To="1"
+													Duration="0:0:0.2">
+									<DoubleAnimation.EasingFunction>
+										<CircleEase EasingMode="EaseInOut" 
+														/>
+									</DoubleAnimation.EasingFunction>
+								</DoubleAnimation>
+							</Storyboard>
+						</BeginStoryboard>
+					</EventTrigger>
+				</Button.Triggers>
+				<Button.Resources>
+					<Style TargetType="{x:Type Border}">
+						<Setter Property="CornerRadius" Value="15"/>
+						<Setter Property="BorderBrush" Value="#6a994e"/>
+					</Style>
+				</Button.Resources>
+			</Button>
+
+			<StackPanel Grid.Row="4" Grid.Column="1">
+				<ContentControl x:Name="all_pokemon_select">
+					<ContentControl.ContentTemplate>
+						<DataTemplate>
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="80px"></ColumnDefinition>
+									<ColumnDefinition Width="*"></ColumnDefinition>
+								</Grid.ColumnDefinitions>
+
+								<Border Grid.ColumnSpan="2" Background="#386641" CornerRadius="15"/>
+								<Border Background="#6a994e" CornerRadius="50" Margin="10"/>
+								<Image Source="{Binding Sprite}" />
+								<Grid Grid.Column="1" Margin="10, 0, 20, 0">
+
+									<Grid.RowDefinitions>
+										<RowDefinition Height="35"></RowDefinition>
+										<RowDefinition Height="8"></RowDefinition>
+										<RowDefinition Height="35"></RowDefinition>
+									</Grid.RowDefinitions>
+
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*"></ColumnDefinition>
+										<ColumnDefinition Width="*"></ColumnDefinition>
+									</Grid.ColumnDefinitions>
+
+									<StackPanel Grid.Row="1"
+											            Grid.Column="0"
+											            Grid.ColumnSpan="2">
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="{Binding HpPercentage}"></ColumnDefinition>
+												<ColumnDefinition Width="{Binding LostHpPercentage}"></ColumnDefinition>
+											</Grid.ColumnDefinitions>
+
+											<Border CornerRadius="5" Grid.Column="0" Grid.ColumnSpan="2" Margin ="2, 0, 0, 0" Height="8" Background="#6a994e"></Border>
+											<Border CornerRadius="5" Grid.Column="0" Height="8" Background="#a7c957"></Border>
+										</Grid>
+									</StackPanel>
+
+									<TextBlock Grid.Column="0"
+											           Grid.ColumnSpan="2"
+											           VerticalAlignment="Center"
+											           Text="{Binding NickName}"/>
+
+									<StackPanel Orientation="Horizontal"
+											            Grid.Row="2"
+											            Grid.Column="0"
+											            VerticalAlignment="Center">
+										<TextBlock Text="{Binding Hp}"/>
+										<TextBlock Text="/"/>
+										<TextBlock Text="{Binding MaxHp}"/>
+									</StackPanel>
+
+
+									<TextBlock TextAlignment="Right"
+											   VerticalAlignment="Center"
+									           Grid.Row="2"
+									           Grid.Column="1"
+									           Text="{Binding Level, StringFormat=Lv. {0}}"/>
+								</Grid>
+							</Grid>
+						</DataTemplate>
+					</ContentControl.ContentTemplate>
+				</ContentControl>
+			</StackPanel>
+		</Grid>
+	</Grid>
+</Page>
