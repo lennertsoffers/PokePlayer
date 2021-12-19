@@ -34,7 +34,7 @@
 				<RowDefinition Height="30"></RowDefinition>
 			</Grid.RowDefinitions>
 
-			<ItemsControl x:Name="t"
+			<ItemsControl x:Name="party"
 						  Grid.Row="2"
 						  Grid.Column="1"
 			              Grid.ColumnSpan="4">

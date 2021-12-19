@@ -34,9 +34,6 @@
     <Page Update="Pages\Switch Pokemon.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Pages\TestDb.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Pages\View Party.xaml">
       <SubType>Designer</SubType>
     </Page>

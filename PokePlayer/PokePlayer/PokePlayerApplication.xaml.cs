@@ -17,6 +17,7 @@ using PokePlayer_Library.Models.Pokemon;
 namespace PokePlayer {
 	/// <summary>
 	/// Interaction logic for PokePlayerApplication.xaml
+	/// This is the window shown at the startup of the application
 	/// </summary>
 	public partial class PokePlayerApplication : Window {
 		public Trainer Trainer { get; set; }
@@ -24,6 +25,11 @@ namespace PokePlayer {
 		public static PokePlayerApplication MainApplication { get; set; }
 		public PokePlayerApplication() {
 			InitializeComponent();
+
+			// The PokePlayerApplication has 3 frames
+			// - fullscreen: Takes the whole screen, for a battle for example
+			// - navbar: Navbar is shown here
+			// - maincontent: Conent is put here if the navbar must be shown too
 			fullScreen.Content = new PreLogin();
 			MainApplication = this;
 		}

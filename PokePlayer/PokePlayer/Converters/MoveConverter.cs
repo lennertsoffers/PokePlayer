@@ -3,6 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+/// <summary>
+/// Class to convert a move to a class with the precise attributes that are needed in the WPF views
+/// </summary>
+
 namespace PokePlayer.Converters {
 	public class MoveConverter {
 		public string MoveName { get; }
@@ -16,6 +20,8 @@ namespace PokePlayer.Converters {
 		public MoveConverter(Move move, int pokemonMoveId=-1) {
 			this.MoveName = move.MoveName;
 			this.PokemonMoveId = pokemonMoveId;
+
+			// If the move has no power a '/' is displayed instead of -1
 			if (move.Power == -1) {
 				this.Power = "/";
 			} else {

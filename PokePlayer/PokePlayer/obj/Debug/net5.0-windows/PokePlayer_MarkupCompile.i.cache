@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET5_0;NETCOREAPP
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\PokePlayer\PokePlayer\App.xaml
-111774918475
+101597779013
 
-171640705587
+16-1304270620
 227-392976387
-Pages\Battle.xaml;Pages\ChooseStarter.xaml;Pages\ClearContent.xaml;Pages\Login.xaml;Pages\Navbar.xaml;Pages\NewPlayer.xaml;Pages\PreLogin.xaml;Pages\Switch Pokemon.xaml;Pages\TestDb.xaml;Pages\View Party.xaml;PokePlayerApplication.xaml;
+Pages\Battle.xaml;Pages\ChooseStarter.xaml;Pages\ClearContent.xaml;Pages\Login.xaml;Pages\Navbar.xaml;Pages\NewPlayer.xaml;Pages\PreLogin.xaml;Pages\Switch Pokemon.xaml;Pages\View Party.xaml;PokePlayerApplication.xaml;
 
-False
+True
 

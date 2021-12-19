@@ -40,10 +40,13 @@ namespace PokePlayer.Pages {
 		async public void StartBattle() {
 			PokePlayerApplication.MainApplication.navBar.Visibility = Visibility.Hidden;
 			this.FirstPokemon = Trainer.CarryPokemonList[0];
+
+			// Generates a new random pokemon that has a max level difference with 5 levels
 			int minLevel = FirstPokemon.Level - 5 < 1 ? 1 : FirstPokemon.Level - 5;
 			int maxLevel = FirstPokemon.Level + 5 > 100 ? 100 : FirstPokemon.Level + 5;
 			this.WildPokemon = new Pokemon(random.Next(1, 700), random.Next(minLevel, maxLevel));
 
+			// Show the two pokemons on the page
 			wildPokemon.Content = new PokemonConverter(this.WildPokemon);
 			trainerPokemon.Content = new PokemonConverter(this.FirstPokemon);
 
@@ -55,7 +58,7 @@ namespace PokePlayer.Pages {
 
 
 		// ---- BATTLE MENU ---- //
-		// Show menu
+		// Show menu with options for the battle
 		private void ShowBattleMenu() {
 			if (!this.BattleEnds) {
 				BattleMenu.Visibility = Visibility.Visible;
@@ -66,18 +69,21 @@ namespace PokePlayer.Pages {
 			}
 		}
 
-		// Fight action
+		// Fight action when the fight button is clicked
 		private void ActionFight(object sender, RoutedEventArgs e) {
 			ShowMoveMenu();
 		}
 
-		// Throw pokeball action
+		// Throw pokeball action when the pokeball button is clicked
 		private void ActionPokeball(object sender, RoutedEventArgs e) {
 			BattleMenu.Visibility = Visibility.Hidden;
 			CaptureAttempt();
 		}
 
-		// Switch action
+		// Switch action when the switch button is clicked
+		// Shows the switch menu with all the party pokemon
+		// If this is an obligated switch, the wild pokemon doesn't get a free turn after the switch
+		// If the player chooses to switch pokemon, the wild pokemon gets a free turn after the switch
 		private void ActionSwitch(object sender=null, RoutedEventArgs e=null) {
 			List<PokemonConverter> trainerPokemonData = new List<PokemonConverter>();
 			foreach (var key in Trainer.CarryPokemonList.Keys) {
@@ -96,7 +102,8 @@ namespace PokePlayer.Pages {
 			}
 		}
 
-		// Run action
+		// Run action after clicking the run button
+		// You can only run if the speed of your first pokemon is higher than the speed of the opponent
 		async private void ActionRun(object sender, RoutedEventArgs e) {
 			if (FirstPokemon.GetStat("speed").StatValue >= WildPokemon.GetStat("speed").StatValue) {
 				await SetOutputAsync("Got away safely");
@@ -109,6 +116,9 @@ namespace PokePlayer.Pages {
 		}
 
 		// Click on pokemon to switch with
+		// The application plays the switch animation and lets the opponent do a free turn
+		// If it isn't an obligated switch
+		// After this, the battle menu is shown again
 		async private void SwitchPokemon(object sender, RoutedEventArgs e) {
 			Button button = (Button) sender;
 			int switchPokemonId = ((PokemonConverter) button.Tag).TrainerPokemonId;
@@ -130,6 +140,8 @@ namespace PokePlayer.Pages {
 
 
 		// ---- MOVE MENU ---- //
+		// Shows a button for each move the pokemon can do
+		// The name and the pp of the move is shown
 		private void ShowMoveMenu() {
 			BattleMenu.Visibility = Visibility.Hidden;
 			MoveMenu.Visibility = Visibility.Visible;
@@ -172,15 +184,22 @@ namespace PokePlayer.Pages {
 			}
 		}
 
+		// Called when a move is clicked
 		async private void ActionMove(object sender, RoutedEventArgs e) {
 			Button button = (Button) sender;
 			MoveMenu.Visibility = Visibility.Hidden;
+
+			// If the speed of the first pokemon higher, your pokemon attacks first
 			if (FirstPokemon.GetStat("speed").StatValue >= WildPokemon.GetStat("speed").StatValue) {
+				// The tag of the button has the pokemon converter object associated with it
+				// Then the move is executed
+				// If the battle is not ended, the wild pokemon can do its move
 				await Turn(int.Parse((string) button.Tag), FirstPokemon, WildPokemon);
 				if (!this.BattleEnds) {
 					await Turn(random.Next(1, WildPokemon.Moves.Count), WildPokemon, FirstPokemon);
 				}
 			} else {
+				// Works the same if the wild pokemon can attack first
 				await Turn(random.Next(1, WildPokemon.Moves.Count), WildPokemon, FirstPokemon);
 				if (!this.BattleEnds) {
 					await Turn(int.Parse((string) button.Tag), FirstPokemon, WildPokemon);
@@ -192,19 +211,24 @@ namespace PokePlayer.Pages {
 
 
 		// ---- LEARN MOVE MENU ---- //
-		private void TeachMove(Pokemon pokemon, Move move) {
+		// Show the teach move menu
+		private void TeachMove(Move move) {
 			teachMoveContent.Content = new MoveConverter(move);
 			teachMove.Visibility = Visibility.Visible;
 			teachMoveMenu.Visibility = Visibility.Visible;
 		}
 
+		// Shows the move continue button and sets the tcs to the count of the moves of the pokemon
 		private void TeachMoveContinueButton(object sender, RoutedEventArgs e) {
 			HideTeachMoveButtons();
 			this.tcs.SetResult(this.FirstPokemon.Moves.Count);
 		}
 
+		// Activated when the forget button is clicked
 		private void TeachMoveForgetButton(object sender, RoutedEventArgs e) {
 			HideTeachMoveButtons();
+
+			// Add every move the pokemon knows to the move converter list
 			List<MoveConverter> pokemonMoveData = new List<MoveConverter>();
 			foreach (var id in FirstPokemon.Moves.Keys) {
 				pokemonMoveData.Add(new MoveConverter(FirstPokemon.Moves[id], id));
@@ -213,18 +237,24 @@ namespace PokePlayer.Pages {
 			selectMoveToForget.Visibility = Visibility.Visible;
 		}
 
+		// Stops the progress of learning the move
 		private void TeachMoveDontTeachButton(object sender, RoutedEventArgs e) {
 			HideTeachMoveButtons();
 			this.tcs.SetResult(-1);
 		}
 
+		// Activated when a certain move is clicked
+		// Sets the result of the TaskCompletionSource to the id of the clicked move
 		private void ForgetThisMoveButton(object sender, RoutedEventArgs e) {
 			selectMoveToForget.Visibility = Visibility.Hidden;
 			Button button = (Button) sender;
+
+			// The id of the selected move is stored in the tag of the button
 			int moveToForgetId = (int) button.Tag;
 			this.tcs.SetResult(moveToForgetId);
 		}
 
+		// Hides the buttons after the teach move process is done
 		private void HideTeachMoveButtons() {
 			teachMoveContinue.Visibility = Visibility.Hidden;
 			teachMove.Visibility = Visibility.Hidden;
@@ -234,6 +264,9 @@ namespace PokePlayer.Pages {
 
 
 		// ---- TURN (of player and wildpokemon) ---- //
+		// Starts a turn
+		// Sets the attacker and target
+		// The selected move id is set globally too
 		async private Task Turn(int id, Pokemon a, Pokemon t) {
 			this.Attacker = a;
 			this.Target = t;
@@ -245,6 +278,7 @@ namespace PokePlayer.Pages {
 
 
 		// ---- ANIMATION OF HP BAR ---- //
+		// For each hp in the hp change a delay of 40 miliseconds is delayed
 		async public Task SetHpAnimated(Pokemon pokemon, int change) {
 			if (change != 0) {
 				int currentHp = pokemon.Hp;
@@ -269,6 +303,7 @@ namespace PokePlayer.Pages {
 						pokemon.LowerHp(1);
 					}
 
+					// Updates the view
 					wildPokemon.Content = new PokemonConverter(WildPokemon);
 					trainerPokemon.Content = new PokemonConverter(FirstPokemon);
 					await Task.Delay(40);
@@ -279,13 +314,18 @@ namespace PokePlayer.Pages {
 
 
 		// ---- EXECUTION OF MOVE ---- //
+		// Before a move is executed, we need to check if the pokemon is confused and hurts itself in its confusion
 		async private Task PreMoveHit() {
 			this.premovehits++;
+
+			// If confusion is -1, the pokemon isn't confused
 			if (Attacker.VolatileStatus["confusion"] != -1) {
+				// If the confusion == 0, the pokemon will snap out of confusion
 				if (Attacker.VolatileStatus["confusion"] == 0) {
 					await SetOutputAsync(Attacker.NickName + " snapped out of confusion");
 					await MoveHitLoop();
 				} else {
+					// If te pokemon is still confused, the pokemon wil hit itself with a chance of 50/100
 					await SetOutputAsync(Attacker.NickName + " is confused");
 					if (random.Next(1, 100) <= 50) {
 						await SetOutputAsync(Attacker.NickName + " hurt itself in its confusion");
@@ -297,11 +337,15 @@ namespace PokePlayer.Pages {
 					}
 				}
 
+				// The confusion volatile status is lowered with one
 				Attacker.VolatileStatus["confusion"]--;
 			} else {
+				// Move hit loop wil certainly trigger
 				await MoveHitLoop();
 			}
 
+			// If the attacker has more than one hp
+			// If the atacker has a non volatile status as poison, it gets this damage
 			if (Attacker.Hp > 0) {
 				await NonVolatileStatusDamage(Attacker);
 				wildPokemon.Content = new PokemonConverter(WildPokemon);
@@ -309,6 +353,9 @@ namespace PokePlayer.Pages {
 			}
 		}
 
+		// An attack can hit multiple times if its multi hit type is different from 'single'
+		// This method triggers the methods that calculate if the attack hits and damage calculation etc.
+		// This method is mainly used to show the output of these calculation methods to the user
 		async private Task MoveHitLoop() {
 			Move move = Attacker.Moves[MoveId];
 			int hitCount = CalculateAmountOfHits();
@@ -316,7 +363,10 @@ namespace PokePlayer.Pages {
 			int effectiveHits = 1;
 			AttackHitOutput attackHitOutput;
 
+			// While the attack doesn't miss, the attack hits as many times as the amount of attack hits
 			do {
+
+				// The attackHitOutput class is used to check when which message must be shown to the user
 				attackHitOutput = AttackHit();
 				if (attackHitOutput.Attack) {
 					if (attackHitOutput.Before && attackHitOutput.Message != "") {
@@ -363,11 +413,13 @@ namespace PokePlayer.Pages {
 				}
 			} while (effectiveHits <= hitCount && !stopHit);
 
+			// If the move isn't single hit, we show how many times the move has hit
 			if (move.MultiHitType != "single") {
 				await SetOutputAsync("It hit " + effectiveHits + " time(s)");
 			}
 		}
 
+		// Method that checks if the attack hits the target and forms a structured output message from the attackhitoutput class
 		private AttackHitOutput AttackHit() {
 			Move move = Attacker.Moves[this.MoveId];
 			int mAccuracy = move.Accuracy;
@@ -376,6 +428,7 @@ namespace PokePlayer.Pages {
 
 			AttackHitOutput attackHitOutput = new AttackHitOutput(true, "", false);
 
+			// If the move doesn't effect the targets type, the move is not executed
 			foreach (var type in Target.TypeList) {
 				if (move.Type.NoDamageTo.Contains(type.TypeName)) {
 					attackHitOutput = new AttackHitOutput(false, "This move doesn't effect the target", false);
@@ -385,19 +438,24 @@ namespace PokePlayer.Pages {
 				}
 			}
 
+			// T: Is directly proportional with the chance the move misses
 			double t;
+
+			// The more accuracy the move and the attacker have, the more chance the move will hit
 			if (pAccuracy >= 0) {
 				t = mAccuracy * ((3d + pAccuracy) / 3d);
 			} else {
 				t = mAccuracy * (3d / (3d + Math.Abs(pAccuracy)));
 			}
 
+			// The more evasion the target has, the less chance the move will hit
 			if (tEvasion >= 0) {
 				t *= (3d / (3d + tEvasion));
 			} else {
 				t *= ((3d + Math.Abs(tEvasion)) / 3d);
 			}
 
+			// It is also possible that the move wil miss due to non volatile status effects or flich
 			if (random.Next(1, 100) > Math.Round(t)) {
 				attackHitOutput = new AttackHitOutput(false, Attacker.NickName + " missed", false);
 			} else if (Attacker.NonVolatileStatus["PAR"] == 1 && random.Next(1, 100) <= 25) {
@@ -427,8 +485,11 @@ namespace PokePlayer.Pages {
 
 
 		// ---- CHECKING IF POKEMONS ARE FAINTED OR NOT ---- //
+		// Checks if the first pokemon is fainted
 		async private Task CheckPokemonFainted() {
 			if (this.FirstPokemon.Hp == 0) {
+				// If there are pokemons left in the party, the trainer must switch pokemon
+				// If there aren't pokemons left, the trainer loses
 				BattleEnds = true;
 				await SetOutputAsync(this.FirstPokemon.NickName + " fainted");
 				bool hasPokemonWithHp = false;
@@ -445,6 +506,8 @@ namespace PokePlayer.Pages {
 					await EndBattle();
 				}
 			} else {
+				// If the wild pokemon has 0 hp, the trainer wins
+				// The first pokemon of the trainer gets experience points
 				if (WildPokemon.Hp == 0) {
 					await SetOutputAsync(this.WildPokemon.NickName + " fainted");
 					this.TrainerWin = true;
@@ -460,6 +523,7 @@ namespace PokePlayer.Pages {
 			}
 		}
 
+		// Ends the battle and shows the view party menu and the navbar
 		async private Task EndBattle() {
 			if (TrainerWin) {
 				await SetOutputAsync("You win");
@@ -475,7 +539,11 @@ namespace PokePlayer.Pages {
 
 
 		// ---- UPDATING OF XP ---- //
+		// Updates the experience points of a pokemon
 		async private Task UpdateXp(Pokemon pokemon, int xp) {
+			// The addExperience method of the pokemon object returns a set of moves that are learned due to levelling up
+			// The player is now prompted to teach this move to the pokemon if it already knows 4 moves
+			// If the pokemon doesn't know 4 moves, the new moves is just added
 			foreach (var move in pokemon.AddExperience(xp)) {
 				if (pokemon.Moves.Count < 4) {
 					await SetOutputAsync(pokemon.NickName + " learned the move " + move.MoveName);
@@ -484,7 +552,7 @@ namespace PokePlayer.Pages {
 					await SetOutputAsync(
 						pokemon.NickName + " wants to learn the move " + move.MoveName + "\nDo you want to learn it?",
 						true);
-					TeachMove(pokemon, move);
+					TeachMove(move);
 					tcs = new TaskCompletionSource<int>();
 					int id = await tcs.Task;
 					if (id != -1) {
@@ -508,10 +576,11 @@ namespace PokePlayer.Pages {
 
 
 		// ---- UPDATING OF STATS ---- //
+		// Updates the stats using the moveId attribute of this class
 		async private Task UpdateStats(int damage) {
 			Move move = Attacker.Moves[MoveId];
 
-			// Volatile and non volatile stats
+			// Checks if the moves invokes a non volatile status
 			bool hasNonVolatileStatus = false;
 			foreach (var value in Target.NonVolatileStatus.Values) {
 				if (value > 0) {
@@ -520,10 +589,12 @@ namespace PokePlayer.Pages {
 				}
 			}
 
+			// Checks if the moves invokes a volatile status
 			if (Target.NonVolatileStatus["SLP"] != -1 || Target.VolatileStatus["confusion"] != -1) {
 				hasNonVolatileStatus = true;
 			}
 
+			// Sets the nonVolatileStatus if the pokemon hasn't one yet
 			if (move.Ailment["name"] != "-1" && !hasNonVolatileStatus) {
 				int chance = int.Parse(move.Ailment["chance"]);
 				if (move.Ailment["name"] == "PAR") {
@@ -560,20 +631,26 @@ namespace PokePlayer.Pages {
 			}
 
 
-			// In battle stats
+			// Sets the critical hit ratio
+			// Cannot be lower than -6 and higher than 6
 			if (move.CritRate > 0 && Attacker.InBattleStats["critRate"] < 6) {
 				Attacker.InBattleStats["critRate"]++;
 				await SetOutputAsync(Attacker.NickName + " critical hit ratio rose!");
 			}
 
+			// If the move does healing, the pokemon gets healed
 			if (move.Healing > 0) {
 				await SetHpAnimated(Attacker, move.Healing);
 			}
 
+			// If the move does has, the pokemon gets healed
 			if (move.Drain > 0) {
 				await SetHpAnimated(Attacker, (int) Math.Round(damage * (move.Drain / 100.0)));
 			}
 
+			// Sets the critical hit ratio
+			// Cannot be lower than -6 and higher than 6
+			// Also the correct text is shown to the output box
 			foreach (var statChange in move.StatChanges) {
 				if (statChange["name"] != "hp") {
 					int change = int.Parse(statChange["amount"]);
@@ -643,13 +720,18 @@ namespace PokePlayer.Pages {
 			await SetHpAnimated(pokemon, -CalculateNonVolatileStatusDamage(pokemon, pokemon.NonVolatileStatus[status]));
 		}
 
+
+
 		// ---- CAPTURE POKEMON ---- //
+		// Main method for a capture attempt
 		async private void CaptureAttempt() {
 			await SetOutputAsync(Trainer.Name + " throws a pokeball");
 
+			// Play 2 animations
 			await PlayThrowPokeBallAnimation();
 			await PlayOpenPokeballAnimation();
 
+			// A non volatile status for the target increases the chances of capturing a pokemon
 			int maxHp = WildPokemon.GetStat("hp").StatValue;
 			double a = (((3 * maxHp - 2 * WildPokemon.Hp) * WildPokemon.Specie.CaptureRate * 8) / (3 * maxHp));
 			if (WildPokemon.NonVolatileStatus["BRN"] != 0 ||
@@ -661,8 +743,11 @@ namespace PokePlayer.Pages {
 				a *= 2;
 			}
 
+			// Probability that the pokebal will shake
 			double shakeProbability = (1048560 / (Math.Sqrt(Math.Sqrt(16711680 / a))));
 
+			// The pokeball has to shake 4 times to capture a pokemon
+			// The last shake isn't shown
 			int shakes = 0;
 			while (shakes < 4 && random.Next(0, 65536) < shakeProbability) {
 				shakes++;
@@ -676,12 +761,15 @@ namespace PokePlayer.Pages {
 				}
 			}
 
+			// If the pokeball doesn't shake 4 times, the pokemon escapes and the battle continues
 			if (shakes < 4) {
 				await PlayOpenPokeballAnimation(true);
 				await SetOutputAsync(WildPokemon.NickName + " got free");
 				await Turn(random.Next(1, WildPokemon.Moves.Count), WildPokemon, FirstPokemon);
 				ShowBattleMenu();
 			} else {
+				// Otherwise the battle ends and the view party page is shown
+				// The captured pokemon is added to the trainer
 				Trainer.AddPokemon(WildPokemon);
 				PokePlayerApplication.MainApplication.navBar.Visibility = Visibility.Visible;
 				PokePlayerApplication.MainApplication.mainContent.Content = new View_Party(Trainer);
@@ -689,6 +777,7 @@ namespace PokePlayer.Pages {
 			}
 		}
 
+		// Animation to move the pokeball
 		async private Task PlayThrowPokeBallAnimation() {
 			pokeball_form_1.Visibility = Visibility.Visible;
 			Storyboard sb = new Storyboard();
@@ -717,6 +806,7 @@ namespace PokePlayer.Pages {
 			await Task.Delay(1500);
 		}
 
+		// Animation to open and close the pokeball
 		async private Task PlayOpenPokeballAnimation(bool escape = false) {
 			pokeball_form_1.Visibility = Visibility.Hidden;
 			pokeball_form_2.Visibility = Visibility.Visible;
@@ -744,12 +834,14 @@ namespace PokePlayer.Pages {
 			}
 		}
 
+		// Amimation to wiggle the pokeball
 		async private Task PlayWiggleAnimation() {
 			await PlayRotateAnimation(0, 20, 100, EasingMode.EaseIn);
 			await PlayRotateAnimation(20, -20, 200, EasingMode.EaseInOut);
 			await PlayRotateAnimation(-20, 0, 100, EasingMode.EaseInOut);
 		}
 
+		// This method rotates the pokeball a certain amount of degrees
 		async private Task PlayRotateAnimation(int fromAngle, int toAngle, int animationTime, EasingMode easingMode) {
 			Storyboard sb = new Storyboard();
 			DoubleAnimation rotate = new DoubleAnimation();
@@ -804,6 +896,9 @@ namespace PokePlayer.Pages {
 		}
 
 		// Returns calculated damage of move or does a basic damage calculation
+		// A basic damage calculation is when a pokemon is confused and hurts itself in confusion for example
+		// This method is very mathematical so no more documentation needed
+		// Returns a list of messages that need to be shown in the movehitloop
 		private Dictionary<string, string> CalculateDamage(bool basicDamageCalculation) {
 			int damage;
 			Move move = Attacker.Moves[MoveId];
@@ -859,8 +954,10 @@ namespace PokePlayer.Pages {
 		}
 
 		// Calculates the value the basic damage is multiplied with
+		// This multiplier is dependent on the types of the move and the target
+		// This method returns a multiplieroutput object to structure the output messages
 		private MultiplierOutput CalculateMultiplier() {
-			// Calculates the type multiplier
+			// Calculates the type multiplier based on type
 			Type moveType = Attacker.Moves[MoveId].Type;
 			List<Type> targetTypes = Target.TypeList;
 			double multiplier = 1.0;
@@ -891,7 +988,7 @@ namespace PokePlayer.Pages {
 				3 => random.Next(0, 100) <= 33,
 				_ => random.Next(0, 100) <= 50,
 			};
-
+			// If the move is a critical hit, the multiplier is doubled
 			if (crit) {
 				multiplier *= 2;
 			}
@@ -907,20 +1004,26 @@ namespace PokePlayer.Pages {
 
 
 		// ---- SET OUTPUT TEXT ---- //
+		// Method to animate the output text
 		async private Task SetOutputAsync(string output, bool keepTextOnScreen=false) {
 			outputText.Text = "";
+			// The printing of each character is delayed a little bit
 			foreach (var letter in output) {
 				string currentText = outputText.Text;
 				currentText += letter;
 				outputText.Text = currentText;
 				await Task.Delay(3);
 			}
+
+			// After the message is on screen, we wait another 1.5 seconds
 			await Task.Delay(1500);
+			// If the message mustn't stay on the screen, it gets cleared
 			if (!keepTextOnScreen) {
 				outputText.Text = "";
 			}
 		}
 
+		// Sets the output text directly
 		private void SetOutputSync(string output) {
 			outputText.Text = output;
 		}

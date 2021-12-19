@@ -17,22 +17,31 @@ using System.Windows.Shapes;
 using PokePlayer_Library.Models;
 using Color = System.Drawing.Color;
 
+/// <summary>
+/// Page to view your party
+/// </summary>
+
 namespace PokePlayer.Pages {
 	public partial class View_Party : Page {
 		public View_Party(Trainer trainer) {
 			InitializeComponent();
 
+			// Creates a list of pokemonconverter from the carry pokemons
 			List<PokemonConverter> pokemonData = new List<PokemonConverter>();
 			foreach (var pokemon in trainer.CarryPokemonList.Values) {
 				pokemonData.Add(new PokemonConverter(pokemon));
 			}
 
-			t.ItemsSource = pokemonData;
+			// This list is the datasource for the party
+			party.ItemsSource = pokemonData;
+
+			// Show the data of the first pokemon in the content of the specific pokemon
 			SpecificPokemon.Content = pokemonData[0];
 			Moves.ItemsSource = pokemonData[0].Moves;
 			Stats.ItemsSource = pokemonData[0].Stats;
 		}
 
+		// Show the moves of the selected pokemon
 		private void move_Click(object sender, RoutedEventArgs e) {
 			var bc = new BrushConverter();
 			Move_button.Background = (Brush) bc.ConvertFrom("#6a994e");
@@ -41,6 +50,7 @@ namespace PokePlayer.Pages {
 			Stats.Visibility = Visibility.Hidden;
 		}
 
+		// Show the stats of the selected pokemon
 		private void stats_Click(object sender, RoutedEventArgs e) {
 			var bc = new BrushConverter();
 			Stat_button.Background = (Brush) bc.ConvertFrom("#6a994e");
@@ -49,6 +59,7 @@ namespace PokePlayer.Pages {
 			Moves.Visibility = Visibility.Hidden;
 		}
 
+		// Select another pokemon
 		private void pokemon_Click(object sender, RoutedEventArgs e) {
 			Button button = (Button) sender;
 			PokemonConverter pokemonData = (PokemonConverter) button.Tag;

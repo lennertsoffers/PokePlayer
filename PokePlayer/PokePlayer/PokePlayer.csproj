@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>pokeball_form_1.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>

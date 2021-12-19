@@ -14,21 +14,25 @@ using System.Windows.Shapes;
 using PokePlayer_Library.Models;
 using PokePlayer_Library.Models.Pokemon;
 
+/// <summary>
+/// Page to handle player logins
+/// </summary>
+
 namespace PokePlayer.Pages {
-	/// <summary>
-	/// Interaction logic for Login.xaml
-	/// </summary>
 	public partial class Login : Page {
 		public Login() {
 			InitializeComponent();
 		}
 
+		// Validates the username and the password and shows corresponding error messages
 		public void ValidateLogin(object sender, RoutedEventArgs e) {
 			wrongPassword.Visibility = Visibility.Hidden;
 			wrongUser.Visibility = Visibility.Hidden;
 			if (Trainer.TrainerExists(username.Text)) {
 				Trainer trainer = Trainer.GetTrainer(username.Text);
+				// Verifies the password in the database with the password entered
 				if (BCrypt.Net.BCrypt.Verify(password.Password, trainer.Password)) {
+					// If the credentials are correct, the navbar and the view party content are shown
 					PokePlayerApplication.MainApplication.navBar.Content = new Navbar();
 					PokePlayerApplication.MainApplication.mainContent.Content = new View_Party(trainer);
 					PokePlayerApplication.MainApplication.fullScreen.Content = new ClearContent();
