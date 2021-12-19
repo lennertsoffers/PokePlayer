@@ -24,7 +24,7 @@ namespace PokePlayer_Library.Models.Pokemon {
 		}
 
 		private Type(string name) {
-			JObject typeData = ApiTools.GetSpecieData("https://pokeapi.co/api/v2/type/" + name);
+			JObject typeData = ApiTools.GetApiData("https://pokeapi.co/api/v2/type/" + name);
 			this.Id = (int) typeData["id"];
 			this.TypeName = name;
 			this.NoDamageTo = new List<string>();

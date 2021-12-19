@@ -38,7 +38,7 @@ namespace PokePlayer_Library.Models.Pokemon {
 		public Pokemon() {}
 
 		public Pokemon(int id, int level = 1, string nickName = "") {
-			JObject pokemonData = ApiTools.GetSpecieData("https://pokeapi.co/api/v2/pokemon/" + id);
+			JObject pokemonData = ApiTools.GetApiData("https://pokeapi.co/api/v2/pokemon/" + id);
 			this.Id = pokemonRepository.GetAmountOfPokemon() + 1;
 			this.PokemonId = id;
 			this.Specie = Specie.GetSpecie(id);

@@ -2,9 +2,11 @@
 using System.IO;
 using Newtonsoft.Json.Linq;
 
+
+
 namespace PokePlayer_Library.Tools {
-	public class ApiTools {
-		public static JObject GetSpecieData(string url) {
+	public static class ApiTools {
+		public static JObject GetApiData(string url) {
 			WebRequest request = WebRequest.Create(url);
 			HttpWebResponse response = (HttpWebResponse) request.GetResponse();
 			Stream dataStream = response.GetResponseStream();

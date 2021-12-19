@@ -17,7 +17,7 @@ namespace PokePlayer_Library.Models.Pokemon {
 		private static readonly StatRepository statRepository = new StatRepository();
 
 		public Stat(int id, int baseStat, int level) {
-			JObject statData = ApiTools.GetSpecieData("https://pokeapi.co/api/v2/stat/" + id);
+			JObject statData = ApiTools.GetApiData("https://pokeapi.co/api/v2/stat/" + id);
 			this.Id = statRepository.GetAmountOfStats() + 1;
 			this.StatId = id;
 			this.StatName = (string) statData["name"];

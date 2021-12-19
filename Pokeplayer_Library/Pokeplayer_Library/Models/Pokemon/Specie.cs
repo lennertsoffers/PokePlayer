@@ -18,7 +18,7 @@ namespace PokePlayer_Library.Models.Pokemon {
 		private static readonly SpecieRepository specieRepository = new SpecieRepository();
 
 		public Specie(int id) {
-			JObject specieData = ApiTools.GetSpecieData("https://pokeapi.co/api/v2/pokemon-species/" + id);
+			JObject specieData = ApiTools.GetApiData("https://pokeapi.co/api/v2/pokemon-species/" + id);
 			this.SpecieId = id;
 			this.CaptureRate = (int) specieData["capture_rate"];
 			this.SpecieName = (string) specieData["name"];

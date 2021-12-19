@@ -452,7 +452,6 @@ namespace PokePlayer.Pages {
 					int experience = CalculateExperience(FirstPokemon, WildPokemon);
 					await SetOutputAsync(FirstPokemon.NickName + " got " + experience + "xp");
 					await UpdateXp(this.FirstPokemon, experience);
-					// await UpdateXp(this.FirstPokemon, 50000);
 
 					await EndBattle();
 				} else {

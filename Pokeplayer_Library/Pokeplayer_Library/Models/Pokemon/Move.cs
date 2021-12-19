@@ -5,6 +5,8 @@ using Newtonsoft.Json.Linq;
 using Pokeplayer_Library.DAL;
 using PokePlayer_Library.Tools;
 
+// Class model for a move
+
 namespace PokePlayer_Library.Models.Pokemon {
 	public class Move {
 		public int Id { get; set; }
@@ -28,10 +30,11 @@ namespace PokePlayer_Library.Models.Pokemon {
 
 		private static readonly MoveRepository moveRepository = new MoveRepository();
 
+
 		public Move() {}
 
 		public Move(string name) {
-			JObject moveData = ApiTools.GetSpecieData("https://pokeapi.co/api/v2/move/" + name);
+			JObject moveData = ApiTools.GetApiData("https://pokeapi.co/api/v2/move/" + name);
 
 			this.Id = (int) moveData["id"];
 			this.Accuracy = (int) (moveData["accuracy"].Type != JTokenType.Null ? moveData["accuracy"] : 100);

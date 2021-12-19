@@ -5,7 +5,7 @@ namespace PokePlayer_Library.Models.Pokemon {
 	public class StatHp : Stat {
 
 		public StatHp(int id, int baseStat, int level): base(id, baseStat, level) {
-			JObject statData = ApiTools.GetSpecieData("https://pokeapi.co/api/v2/stat/" + id);
+			JObject statData = ApiTools.GetApiData("https://pokeapi.co/api/v2/stat/" + id);
 			base.StatValue = CalcStat(level);
 			base.PreviousStat = this.StatValue;
 		}
