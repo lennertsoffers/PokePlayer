@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Pokeplayer_Library.DAL;
 
@@ -7,6 +8,7 @@ namespace PokePlayer_Library.Models {
 		public int TrainerId { get; }
 		public string Name { get; }
 		public string Password { get; }
+		public long RegenPokemon { get; set; }
 		public List<Pokemon.Pokemon> PokemonList { get; set; }
 		public Dictionary<int, Pokemon.Pokemon> CarryPokemonList { get; set; }
 
@@ -18,6 +20,7 @@ namespace PokePlayer_Library.Models {
 			this.TrainerId = trainerRepository.GetAmountOfTrainers();
 			this.Name = name;
 			this.Password = BCrypt.Net.BCrypt.HashPassword(password);
+			this.RegenPokemon = DateTimeOffset.Now.ToUnixTimeMilliseconds() + 86400000;
 			this.PokemonList = new List<Pokemon.Pokemon>();
 			this.CarryPokemonList = new Dictionary<int, Pokemon.Pokemon>();
 			AddPokemon(starter);
@@ -37,6 +40,11 @@ namespace PokePlayer_Library.Models {
 		public void MovePokemon(int carryPokemonIndex, Pokemon.Pokemon pokemon) {
 			this.CarryPokemonList[carryPokemonIndex] = pokemon;
 			
+			trainerRepository.UpdateTrainer(this);
+		}
+
+		public void SwitchOutPokemon(int carryPokemonId, Pokemon.Pokemon pokemon) {
+			this.CarryPokemonList[carryPokemonId] = pokemon;
 			trainerRepository.UpdateTrainer(this);
 		}
 

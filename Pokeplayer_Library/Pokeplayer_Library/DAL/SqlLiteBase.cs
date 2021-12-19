@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Dapper;
 using Microsoft.Data.Sqlite;
+using PokePlayer_Library.Models.Pokemon;
 
 namespace PokePlayer.DAL {
 	class SqlLiteBase {
@@ -113,6 +114,7 @@ namespace PokePlayer.DAL {
 						NonVolatileStatus	VARCHAR(200),
 						VolatileStatus		VARCHAR(200),
 						PossibleMoves		VARCHAR(2000),
+						MovePpMapping		VARCHAR(200),
 						Move1Id				INTEGER,
 						Move2Id				INTEGER,
 						Move3Id				INTEGER,
@@ -145,6 +147,7 @@ namespace PokePlayer.DAL {
 						TrainerId			INTEGER PRIMARY KEY,
 						Name				VARCHAR(30),
 						Password			VARCHAR(100),
+						RegenPokemon		BIGINT,
 						CarryPokemon		VARCHAR(200),
 						PokemonList			VARCHAR(2000)
 					);

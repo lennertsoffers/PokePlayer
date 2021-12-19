@@ -16,15 +16,15 @@
             <RowDefinition Height="200"></RowDefinition>
         </Grid.RowDefinitions>
 
-		<Image Source="/Pages/BattlebgGrassy.png" Stretch="Fill"></Image>
+		<Image Source="/Assets/BattlebgGrassy.png" Stretch="Fill"></Image>
 
 		<Grid ZIndex="2" Height="100" Width="70" x:Name="Pokeball">
 			<Grid.RenderTransform>
 				<TranslateTransform x:Name="Transform" X="-200" Y="100"/>
 			</Grid.RenderTransform>
-			<Image x:Name="pokeball_form_1" Width="70" Source="/Pages/pokeball_form_1.png" Visibility="Hidden"/>
-			<Image x:Name="pokeball_form_2" Source="/Pages/pokeball_form_2.png" Width="70" Visibility="Hidden"/>
-			<Image x:Name="pokeball_form_3" Width="70" Source="/Pages/pokeball_form_3.png" Visibility="Hidden"/>
+			<Image x:Name="pokeball_form_1" Width="70" Source="/Assets/pokeball_form_1.png" Visibility="Hidden"/>
+			<Image x:Name="pokeball_form_2" Source="/Assets/pokeball_form_2.png" Width="70" Visibility="Hidden"/>
+			<Image x:Name="pokeball_form_3" Width="70" Source="/Assets/pokeball_form_3.png" Visibility="Hidden"/>
 		</Grid>
 
 	    <Grid ZIndex="1" x:Name="selectMoveToForget" Visibility="Hidden">
@@ -331,11 +331,11 @@
 			</Grid.ColumnDefinitions>
 
 			<Grid Grid.Row="2" Grid.Column="1" Grid.RowSpan="2">
-				<Image Margin="0, 0, 0, -50" Source="/Pages/backgroun.png"></Image>
+				<Image Margin="0, 0, 0, -50" Source="/Assets/backgroun.png"></Image>
 			</Grid>
 
 			<Grid Grid.Row="2" Grid.Column="3" Grid.RowSpan="1">
-				<Image Margin="0, 0, 0, 70" Source="/Pages/backgroun.png"></Image>
+				<Image Margin="0, 0, 0, 70" Source="/Assets/backgroun.png"></Image>
 			</Grid>
 
 			<ContentControl x:Name="trainerPokemon" Grid.Row="2" Grid.Column="1" Grid.RowSpan="2">
@@ -366,7 +366,7 @@
 								<Grid ColumnSpan="3"  Row="3">
 									<Grid>
 										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="80px"></ColumnDefinition>
+											<ColumnDefinition Width="90px"></ColumnDefinition>
 											<ColumnDefinition Width="*"></ColumnDefinition>
 										</Grid.ColumnDefinitions>
 				
@@ -462,7 +462,7 @@
 								<Grid ColumnSpan="3"  Row="3">
 									<Grid>
 										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="80px"></ColumnDefinition>
+											<ColumnDefinition Width="90px"></ColumnDefinition>
 											<ColumnDefinition Width="*"></ColumnDefinition>
 										</Grid.ColumnDefinitions>
 

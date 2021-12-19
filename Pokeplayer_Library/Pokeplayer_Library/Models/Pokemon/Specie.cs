@@ -23,7 +23,16 @@ namespace PokePlayer_Library.Models.Pokemon {
 			this.CaptureRate = (int) specieData["capture_rate"];
 			this.SpecieName = (string) specieData["name"];
 			this.GrowthRate = (string) specieData["growth_rate"]["name"];
-			this.FlavorText = ((string) specieData["flavor_text_entries"][0]["flavor_text"]).Replace('\n', ' ').Replace('\f', ' ');
+			if (specieData["flavor_text_entries"].Type != JTokenType.Null) {
+				foreach (var entry in specieData["flavor_text_entries"]) {
+					if ((string) entry["language"]["name"] == "en") {
+						this.FlavorText = ((string) entry["flavor_text"]).Replace('\n', ' ').Replace('\f', ' ');
+						break;
+					}
+				}
+			} else {
+				this.FlavorText = "/";
+			}
 			this.IsLegendary = (bool) specieData["is_legendary"];
 			this.IsMythical = (bool) specieData["is_mythical"];
 

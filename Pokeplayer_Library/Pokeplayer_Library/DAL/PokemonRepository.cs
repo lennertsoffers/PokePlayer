@@ -19,7 +19,6 @@ namespace Pokeplayer_Library.DAL {
 		}
 
 		public void InsertPokemon(Pokemon pokemon) {
-			Debug.WriteLine(JsonConvert.SerializeObject(pokemon.Moves));
 			var dictionary = new Dictionary<string, object> {
 				{ "@1", pokemon.Id },
 				{ "@2", pokemon.PokemonId },
@@ -36,17 +35,18 @@ namespace Pokeplayer_Library.DAL {
 				{ "@13", JsonConvert.SerializeObject(pokemon.NonVolatileStatus) },
 				{ "@14", JsonConvert.SerializeObject(pokemon.VolatileStatus) },
 				{ "@15", JsonConvert.SerializeObject(pokemon.PossibleMoves) },
-				{ "@16", pokemon.Moves.Count > 0 ? pokemon.Moves[1].Id : "-1" },
-				{ "@17", pokemon.Moves.Count > 1 ? pokemon.Moves[2].Id : "-1" },
-				{ "@18", pokemon.Moves.Count > 2 ? pokemon.Moves[3].Id : "-1" },
-				{ "@19", pokemon.Moves.Count > 3 ? pokemon.Moves[4].Id : "-1" },
-				{ "@20", pokemon.Stats["hp"].Id },
-				{ "@21", pokemon.Stats["attack"].Id },
-				{ "@22", pokemon.Stats["defense"].Id },
-				{ "@23", pokemon.Stats["special-attack"].Id },
-				{ "@24", pokemon.Stats["special-defense"].Id },
-				{ "@25", pokemon.Stats["speed"].Id },
-				{ "@26", pokemon.Specie.SpecieId },
+				{ "@16", JsonConvert.SerializeObject(pokemon.MovePpMapping) },
+				{ "@17", pokemon.Moves.Count > 0 ? pokemon.Moves[1].Id : "-1" },
+				{ "@18", pokemon.Moves.Count > 1 ? pokemon.Moves[2].Id : "-1" },
+				{ "@19", pokemon.Moves.Count > 2 ? pokemon.Moves[3].Id : "-1" },
+				{ "@20", pokemon.Moves.Count > 3 ? pokemon.Moves[4].Id : "-1" },
+				{ "@21", pokemon.Stats["hp"].Id },
+				{ "@22", pokemon.Stats["attack"].Id },
+				{ "@23", pokemon.Stats["defense"].Id },
+				{ "@24", pokemon.Stats["special-attack"].Id },
+				{ "@25", pokemon.Stats["special-defense"].Id },
+				{ "@26", pokemon.Stats["speed"].Id },
+				{ "@27", pokemon.Specie.SpecieId },
 			};
 			var parameters = new DynamicParameters(dictionary);
 			string fillPokemon = "INSERT INTO Pokemon VALUES(" +
@@ -75,7 +75,8 @@ namespace Pokeplayer_Library.DAL {
 			                     "@23, " +
 			                     "@24, " +
 			                     "@25, " +
-			                     "@26)";
+			                     "@26, " +
+			                     "@27)";
 			using (var connection = DbConnectionFactory()) {
 				connection.Open();
 				connection.Execute(fillPokemon, parameters);
@@ -100,6 +101,7 @@ namespace Pokeplayer_Library.DAL {
 				{"@NextLevelExperience", pokemon.NextLevelExperience},
 				{"@Hp", pokemon.Hp},
 				{"@NonVolatileStatus", JsonConvert.SerializeObject(pokemon.NonVolatileStatus)},
+				{"@MovePpMapping", JsonConvert.SerializeObject(pokemon.MovePpMapping)},
 				{"@Move1Id", pokemon.Moves.Count > 0 ? pokemon.Moves[1].Id : "-1"},
 				{"@Move2Id", pokemon.Moves.Count > 1 ? pokemon.Moves[2].Id : "-1"},
 				{"@Move3Id", pokemon.Moves.Count > 2 ? pokemon.Moves[3].Id : "-1"},
@@ -112,6 +114,7 @@ namespace Pokeplayer_Library.DAL {
 			                       "NextLevelExperience = @NextLevelExperience, " +
 			                       "Hp = @Hp, " +
 			                       "NonVolatileStatus = @NonVolatileStatus, " +
+								   "MovePpMapping = @MovePpMapping, " +
 			                       "Move1Id = @Move1Id, " +
 			                       "Move2Id = @Move2Id, " +
 			                       "Move3Id = @Move3Id, " +
@@ -139,6 +142,7 @@ namespace Pokeplayer_Library.DAL {
 				string getNonvolatilestatus = "SELECT NonVolatileStatus FROM Pokemon WHERE Id = @Id";
 				string getVolatileStatus = "SELECT VolatileStatus FROM Pokemon WHERE Id = @Id";
 				string getPossiblemoves = "SELECT PossibleMoves FROM Pokemon WHERE Id = @Id";
+				string getMovePpMapping = "SELECT MovePpMapping FROM Pokemon WHERE Id = @Id";
 				string getMoveIds = "SELECT Move1Id, Move2Id, Move3Id, Move4Id FROM Pokemon WHERE Id = @Id";
 				string getStats = "SELECT StatsHpId, StatsAttackId, StatsDefenseId, StatsSpAttackId, StatsSpDefenseId, StatsSpeedId " +
 				                          "FROM Pokemon WHERE Id = @Id";
@@ -153,6 +157,7 @@ namespace Pokeplayer_Library.DAL {
 				pokemon.NonVolatileStatus = JsonConvert.DeserializeObject<Dictionary<string, int>>(connection.QuerySingle<string>(getNonvolatilestatus, parameters));
 				pokemon.VolatileStatus = JsonConvert.DeserializeObject<Dictionary<string, int>>(connection.QuerySingle<string>(getVolatileStatus, parameters));
 				pokemon.PossibleMoves = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(connection.QuerySingle<string>(getPossiblemoves, parameters));
+				pokemon.MovePpMapping = JsonConvert.DeserializeObject<Dictionary<int, int>>(connection.QuerySingle<string>(getMovePpMapping, parameters));
 
 				var moveResult = connection.Query(getMoveIds, parameters).Single();
 				Dictionary<int, Move> moves = new Dictionary<int, Move>();

@@ -1,0 +1,3 @@
+C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\exe\PokePlayer.pdb
+C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\exe\Pokeplayer_Library.pdb
+C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\exe\PokePlayer.exe

@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/pokeball_form_1.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("pokeplayerapplication.xaml")]
 
 

@@ -31,6 +31,7 @@ namespace PokePlayer_Library.Models.Pokemon {
 		public Dictionary<string, int> InBattleStats { get; set; }
 		public Dictionary<string, int> NonVolatileStatus { get; set; }
 		public Dictionary<string, int> VolatileStatus { get; set; }
+		public Dictionary<int, int> MovePpMapping { get; set; }
 
 		private static readonly PokemonRepository pokemonRepository = new PokemonRepository();
 
@@ -83,12 +84,14 @@ namespace PokePlayer_Library.Models.Pokemon {
 			for (var i = 0; i < this.PossibleMoves.Count && j < 5; i++) {
 				if (int.Parse(PossibleMoves[i]["learnAt"]) <= level) {
 					Move move = Move.GetMove(this.PossibleMoves[i]["name"]);
-					if (move.Power != 0 || move.Ailment.Count > 0 || move.StatChanges.Count > 0) {
+					if (IsUsefulMove(move)) {
 						this.Moves.Add(j, move);
 						j++;
 					}
 				}
 			}
+
+			UpdateMovePp();
 
 			this.Stats = new Dictionary<string, Stat> {
 				{"hp", new Stat(1, (int) pokemonData["stats"][0]["base_stat"], this.Level)},
@@ -144,10 +147,8 @@ namespace PokePlayer_Library.Models.Pokemon {
 			this.TotalExperience += experience;
 
 			HashSet<Move> moves = new HashSet<Move>();
-			if (GetExperienceDifference() <= 0) {
-				while (GetExperienceDifference() <= 0) {
-					moves.UnionWith(this.LevelUp());
-				}
+			while (GetExperienceDifference() <= 0 && this.Level < 100) {
+				moves.UnionWith(this.LevelUp());
 			}
 
 			pokemonRepository.UpdatePokemon(this);
@@ -199,11 +200,37 @@ namespace PokePlayer_Library.Models.Pokemon {
 
 			foreach (Dictionary<string, string> m in this.PossibleMoves) {
 				if (int.Parse(m["learnAt"]) == this.Level) {
-					moves.Add(Move.GetMove(m["name"]));
+					Move move = Move.GetMove(m["name"]);
+
+					if (IsUsefulMove(move)) {
+						moves.Add(move);
+					}
 				}
 			}
 
 			return moves;
+		}
+
+		private bool IsUsefulMove(Move move) {
+			return move.StatChanges.Count != 0 ||
+			       move.Ailment["name"] != "PAR" ||
+			       move.Ailment["name"] != "BRN" ||
+			       move.Ailment["name"] != "FRZ" ||
+			       move.Ailment["name"] != "PSN" ||
+			       move.Ailment["name"] != "SLP" ||
+			       move.Ailment["name"] != "confusion" ||
+			       move.Power != 0 ||
+			       move.Drain != 0 ||
+			       move.Healing != 0;
+		}
+
+		public void UpdateMovePp() {
+			Dictionary<int, int> movePpMapping = new Dictionary<int, int>();
+			foreach (var key in this.Moves.Keys) {
+				movePpMapping.Add(key, this.Moves[key].MaxPp);
+			}
+
+			this.MovePpMapping = movePpMapping;
 		}
 
 

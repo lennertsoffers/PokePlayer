@@ -101,7 +101,7 @@ namespace PokePlayer.Pages {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/PokePlayer;V1.0.0.0;component/pages/view%20party.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/PokePlayer;component/pages/view%20party.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Pages\View Party.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

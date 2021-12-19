@@ -2,7 +2,6 @@ C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\Pokeplayer_Library\Pokeplayer_Library\bin\Debug\net5.0\Pokeplayer_Library.dll
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\Pokeplayer_Library\Pokeplayer_Library\bin\Debug\net5.0\ref\Pokeplayer_Library.dll
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\Pokeplayer_Library\Pokeplayer_Library\bin\Debug\net5.0\Pokeplayer_Library.pdb
-C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\Pokeplayer_Library\Pokeplayer_Library\obj\Debug\net5.0\Pokeplayer_Library.csproj.AssemblyReference.cache
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\Pokeplayer_Library\Pokeplayer_Library\obj\Debug\net5.0\Pokeplayer_Library.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\Pokeplayer_Library\Pokeplayer_Library\obj\Debug\net5.0\Pokeplayer_Library.AssemblyInfoInputs.cache
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\Pokeplayer_Library\Pokeplayer_Library\obj\Debug\net5.0\Pokeplayer_Library.AssemblyInfo.cs
@@ -10,3 +9,4 @@ C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\Pokeplayer_Library\Pokeplayer_Library\obj\Debug\net5.0\Pokeplayer_Library.dll
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\Pokeplayer_Library\Pokeplayer_Library\obj\Debug\net5.0\ref\Pokeplayer_Library.dll
 C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\Pokeplayer_Library\Pokeplayer_Library\obj\Debug\net5.0\Pokeplayer_Library.pdb
+C:\Users\lenne\Documents\School\Semester_3\DevOps & Security\C#\Project\App .net5\Pokeplayer_Library\Pokeplayer_Library\obj\Debug\net5.0\Pokeplayer_Library.csproj.AssemblyReference.cache

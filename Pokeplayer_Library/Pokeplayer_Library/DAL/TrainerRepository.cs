@@ -21,7 +21,7 @@ namespace Pokeplayer_Library.DAL {
 		}
 
 		public void InsertTrainer(Trainer trainer) {
-			string sql = "INSERT INTO Trainer VALUES(@TrainerId, @Name, @Password, @CarryPokemon, @PokemonList)";
+			string sql = "INSERT INTO Trainer VALUES(@TrainerId, @Name, @Password, @RegenPokemon, @CarryPokemon, @PokemonList)";
 
 			var pokemonList = new List<int>();
 			var carryPokemon = new Dictionary<int, int>();
@@ -36,9 +36,12 @@ namespace Pokeplayer_Library.DAL {
 				{ "@TrainerId", trainer.TrainerId },
 				{ "@Name", trainer.Name },
 				{ "@Password", trainer.Password },
+				{ "@RegenPokemon", trainer.RegenPokemon },
 				{ "@CarryPokemon", JsonConvert.SerializeObject(carryPokemon) },
 				{ "@PokemonList", JsonConvert.SerializeObject(pokemonList) },
 			};
+
+			Debug.WriteLine(dictionary["@RegenPokemon"]);
 
 			var parameters = new DynamicParameters(dictionary);
 
@@ -50,7 +53,7 @@ namespace Pokeplayer_Library.DAL {
 		}
 
 		public void UpdateTrainer(Trainer trainer) {
-			string sql = "UPDATE Trainer SET CarryPokemon = @CarryPokemon, PokemonList = @PokemonList WHERE TrainerId = @TrainerId";
+			string sql = "UPDATE Trainer SET RegenPokemon = @RegenPokemon, CarryPokemon = @CarryPokemon, PokemonList = @PokemonList WHERE TrainerId = @TrainerId";
 
 			var pokemonList = new List<int>();
 			var carryPokemon = new Dictionary<int, int>();
@@ -63,6 +66,7 @@ namespace Pokeplayer_Library.DAL {
 
 			var dictionary = new Dictionary<string, object> {
 				{ "@TrainerId", trainer.TrainerId },
+				{ "@RegenPokemon", trainer.RegenPokemon },
 				{ "@CarryPokemon", JsonConvert.SerializeObject(carryPokemon) },
 				{ "@PokemonList", JsonConvert.SerializeObject(pokemonList) },
 			};
@@ -77,7 +81,7 @@ namespace Pokeplayer_Library.DAL {
 		}
 
 		public Trainer GetTrainer(string name) {
-			string getTrainer = "SELECT TrainerId, Name, Password FROM Trainer WHERE Name = @Name";
+			string getTrainer = "SELECT TrainerId, Name, Password, RegenPokemon FROM Trainer WHERE Name = @Name";
 			string getCarryPokemon = "SELECT CarryPokemon FROM Trainer WHERE Name = @Name";
 			string getPokemonList = "SELECT PokemonList FROM Trainer WHERE Name = @Name";
 			var dictionary = new Dictionary<string, object> {
@@ -101,11 +105,39 @@ namespace Pokeplayer_Library.DAL {
 				foreach (var pokemonId in pokemonIds) {
 					pokemonList.Add(Pokemon.GetPokemon(pokemonId));
 				}
-				
+
+				if (trainer.RegenPokemon <= DateTimeOffset.Now.ToUnixTimeMilliseconds()) {
+					foreach (var pokemon in pokemonList) {
+						RegenPokemon(pokemon);
+					}
+
+					foreach (var pokemon in carryPokemon.Values) {
+						RegenPokemon(pokemon);
+					}
+
+					trainer.RegenPokemon = DateTimeOffset.Now.ToUnixTimeMilliseconds() + 86400000;
+				}
+
 				trainer.CarryPokemonList = carryPokemon;
 				trainer.PokemonList = pokemonList;
+				UpdateTrainer(trainer);
 
 				return trainer;
+			}
+		}
+
+		private void RegenPokemon(Pokemon pokemon) {
+			pokemon.Hp = pokemon.GetStat("hp").StatValue;
+			pokemon.NonVolatileStatus = new Dictionary<string, int> {
+				{"BRN", 0},
+				{"FRZ", 0},
+				{"PAR", 0},
+				{"PSN", 0},
+				{"SLP", -1},
+				{"FNT", 0}
+			};
+			foreach (var key in pokemon.MovePpMapping.Keys) {
+				pokemon.MovePpMapping[key] = pokemon.Moves[key].MaxPp;
 			}
 		}
 
