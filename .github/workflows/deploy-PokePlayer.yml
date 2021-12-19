@@ -1,51 +1,32 @@
-name: "Deploy PokePlayer"
+name: "Build and release on GitHub"
 
+# Only runs on a push used for versioning
 on: 
   push:
     tags:
       - "PokePlayer/v*"
 
+# Path environmemnt variable for ease of use
 env:
   PROJECT_PATH: PokePlayer/PokePlayer/PokePlayer.csproj
 
-
-# jobs:
-#   release:
-#     runs-on: windows-latest
-#     steps:
-#       - uses: actions/checkout@v2
-#       - run: dotnet restore ${{ env.PROJECT_PATH }}
-#       - run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore
-#       - run: dotnet publish ${{ env.PROJECT_PATH }} -c Release --self-contained -r win-x64 /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true --no-build
-#       - uses: actions/create-release@v1
-#         id: create_release
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#         with:
-#           tag_name: ${{ github.ref }}
-#           release_name: ${{ github.ref }}
-#       - uses: csexton/release-asset-action@v2
-#         with:
-#           github-token: ${{ secrets.GITHUB_TOKEN }}
-#           pattern: PokePlayer/bin/Release/net5.0-windows/win-x64/publish/*.exe
-#           release-url: ${{ steps.create_release.outputs.upload_url }}
-
-
 jobs:
-  deploy:
+  release:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
+        name: Checkout code to virtual machine
 
       - uses: actions/setup-dotnet@v1
+        name: Install dotnet version 5.0 on the virtual machine
         with:
           dotnet-version: 5.0.x
 
-      - run: dotnet restore ${{ env.PROJECT_PATH }}
-
       - run: dotnet publish ${{ env.PROJECT_PATH }} -c Release --self-contained -r win-x64 -p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true
+        name: Create the self-contained single file executable for PokePlayer
 
       - uses: actions/create-release@v1
+        name: Create a release on GitHub
         id: create_release
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
@@ -54,6 +35,7 @@ jobs:
           release_name: ${{ github.ref }}
 
       - uses: csexton/release-asset-action@v2
+        name: Upload the executable to the release
         with:
           github-token: ${{ secrets.TOKEN }}
           pattern: PokePlayer/PokePlayer/bin/Release/net5.0-windows/win-x64/publish/*.exe
